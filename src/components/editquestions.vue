@@ -53,7 +53,7 @@
             </div>
            <!-- <div class="row"><q-input v-model="editedItem.answeralpha" label="answer"></q-input></div> -->
            <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div>
-           <div class="row"><q-select style="width: 400px" v-model="editedItem.category" :options="categoryoptions" label="category" emit-value map-options/></div>
+           <div class="row"><q-select disable style="width: 400px" v-model="editedItem.category" :options="categoryoptions" label="category" emit-value map-options/></div>
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
            <!-- <div class="row"><q-select style="width: 400px" v-model="editedItem.companynew" :options="companyoptions" label="Company" emit-value map-options/></div> -->
           </q-card-section>
@@ -516,7 +516,8 @@ const addRow = () => {
     {
       newanswer.value = editedItem.value.answeralpha
     }
-      api.put(`analytic/editqstn/${editedItem.value.question_id }`, {question : editedItem.value.question,options: editedItem.value.options, answer: newanswer.value,company_id:admin.value.company_id,category_id:editedItem.value.category},
+    //category_id:editedItem.value.category
+      api.put(`analytic/editqstn/${editedItem.value.question_id }`, {question : editedItem.value.question,options: editedItem.value.options, answer: newanswer.value,company_id:admin.value.company_id},
       {
    headers: {
      Authorization: 'Bearer ' + token.value
