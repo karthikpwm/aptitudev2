@@ -202,7 +202,7 @@ import moment from 'moment'
 }) 
         .then(async (res) => {
           $q.loading.hide()
-        generatetoken.value ="https://fast-citadel-20623.herokuapp.com/token/test/" + res.data.token 
+        generatetoken.value ="https://aptitudetestv2.herokuapp.com/token/test/" + res.data.token 
         getCategories();
         //  applicant.name.value = generatetoken
          
