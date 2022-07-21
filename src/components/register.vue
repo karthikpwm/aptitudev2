@@ -1,8 +1,8 @@
 <template>
   <div class="window-height row justify-center items-center bg-image">
-        <q-card square class="shadow-24" style="width:350px;height:450px;">
+        <q-card class="shadow-24" style="width:350px;height:450px;">
           <q-card-section class="bg-deep-purple-7">
-            <h4 class="text-h6 text-white row justify-center">New User</h4>
+            <h4 class="text-h6 text-white row justify-center">Registration</h4>
            
           </q-card-section>
           <q-card-section>
@@ -28,14 +28,14 @@
                        
                        lazy-rules
                        
-                       label="password">
+                       label="Password">
                 
                 <template v-slot:prepend>
                   <q-icon name="lock" />
                 </template>
               </q-input>
              
-              <q-input  v-model="signup.company"  label="Company" square clearable />
+              <q-input  v-model="signup.company"  label="Company Name" square clearable />
             </q-form>
           </q-card-section>
 
@@ -45,7 +45,7 @@
                    color="primary"
                    @click="submitForm"
                    class="text-white"                         
-                    label="Sign Up" />
+                    label="Register" />
                     <q-btn class="bg-cyan-8 text-grey-1" label="login" to="/login"/>
           </q-card-actions>
           <q-card-section 
@@ -110,5 +110,8 @@ const signup = ref({
   }
   .q-card__section--vert {
     padding: 3px;
+}
+.q-card {
+  border-radius: 24px;
 }
 </style>

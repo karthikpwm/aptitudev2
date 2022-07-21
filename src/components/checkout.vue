@@ -204,9 +204,9 @@ export default {
   
 </style>
 <style> 
-.window-height {
+/* .window-height {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     height: 90vh !important;
-}
+} */
 </style>
