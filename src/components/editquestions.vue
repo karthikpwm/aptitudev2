@@ -53,6 +53,7 @@
             </div>
            <!-- <div class="row"><q-input v-model="editedItem.answeralpha" label="answer"></q-input></div> -->
            <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div>
+           <div class="row"><q-select style="width: 400px" v-model="editedItem.category" :options="categoryoptions" label="category" emit-value map-options/></div>
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
            <!-- <div class="row"><q-select style="width: 400px" v-model="editedItem.companynew" :options="companyoptions" label="Company" emit-value map-options/></div> -->
           </q-card-section>
@@ -232,14 +233,14 @@
           </q-item-section>
         </template>
 
-        <q-card  >
+        <!-- <q-card  >
           <q-card-section  v-for="(question,index) in product" :key="index"> 
            Question : {{ question.question}}, <br>
            Options : {{ question.options}}, <br>
            Answer  :  {{ question.answeralpha}}
             
           </q-card-section>
-        </q-card>
+        </q-card> -->
         <q-separator />
        
   <div class="q-pa-md">
@@ -515,7 +516,7 @@ const addRow = () => {
     {
       newanswer.value = editedItem.value.answeralpha
     }
-      api.put(`analytic/editqstn/${editedItem.value.question_id }`, {question : editedItem.value.question,options: editedItem.value.options, answer: newanswer.value,company_id:admin.value.company_id},
+      api.put(`analytic/editqstn/${editedItem.value.question_id }`, {question : editedItem.value.question,options: editedItem.value.options, answer: newanswer.value,company_id:admin.value.company_id,category_id:editedItem.value.category},
       {
    headers: {
      Authorization: 'Bearer ' + token.value
@@ -644,7 +645,7 @@ const columns1 = [
     align: 'left',
     field: 'category',
   },
-  { name: 'company', align: 'center', label: 'Company', field: 'company_id', sortable: true },
+  // { name: 'company', align: 'center', label: 'Company', field: 'company_id', sortable: true },
 
 ]
 return {

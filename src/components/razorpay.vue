@@ -81,11 +81,15 @@ export default {
       description: `Description of the payment`,
       order_id: this.neworderid,
       image: `Your business logo`,
-      
+        prefill: {
+        name: `Pwmchennai`,
+        email: `karthik@pwm-india.com`,
+        contact: `8870199101`
+      },
       handler: function(response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature)
         console.log(options.order_id) 
         api.post("payment/verify",{razorpay_payment_id : response.razorpay_payment_id,razorpay_signature : response.razorpay_signature,order_id : options.order_id},
         ).then(response => {
