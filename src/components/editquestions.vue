@@ -167,7 +167,7 @@
       :rows-per-page-options="[10]"
     >
             <template v-slot:top>
-             <q-btn dense color="primary" label="Add new Category" @click="show_dialog2 = !show_dialog2" no-caps></q-btn>{{categoryname}}
+             <q-btn dense color="primary" label="Add new Category" @click="show_dialog2 = !show_dialog2" no-caps></q-btn>
              <div class="q-pa-md q-gutter-md">
                 <q-dialog v-model="show_dialog2">
               <q-card>
@@ -532,8 +532,8 @@ const addRow = () => {
     else{
      let ab = finds.value.options
      let up =  ab.lastIndexOf("")
-     //console.log(up)
-      if( additem.value.question != '' && up == -1 && additem.value.answeralpha != '' )
+     //console.log(ab.length)
+      if( additem.value.question != '' && up == -1 && ab.length !== 0 && additem.value.answeralpha != '' && additem.value.answeralpha != undefined && additem.value.category !=''&& additem.value.category != undefined )
       {
    
    

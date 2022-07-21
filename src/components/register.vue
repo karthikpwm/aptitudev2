@@ -63,6 +63,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default ({
   setup () {
+    const router = useRouter()
 const signup = ref({
       email: '',
     password: '',
@@ -83,9 +84,11 @@ const signup = ref({
            
            
             console.log(res)
+            router.push('/login')
 
           }).catch( (res) => {
             console.log(res)
+            router.push('/register')
           })
      }
   }
