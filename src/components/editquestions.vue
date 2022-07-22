@@ -428,7 +428,7 @@ export default {
 //           api.get(`user/getcategory/${uniqueChars}`).then(res => { console.log(res)})
     
 
-    var result=resdata.filter(obj=> obj.company_id == admin.value.company_id && obj.category_id == visibleColumns.value);
+    var result=resdata.filter(obj=> obj.company_id == admin.value.company_id && obj.category_id == undefined || obj.category_id === visibleColumns.value);
  //console.log(result);
  //console.log(company.value.name)
   //rows.value = resdata
