@@ -218,7 +218,7 @@
            </q-input></div>
            <!-- <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div> -->
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
-           <div class="row"><q-input disable style="width: 200px" v-model="editedItem.company_id"  label="Company" /></div>
+           <!-- <div class="row"><q-input disable style="width: 200px" v-model="editedItem.company_id"  label="Company" /></div> -->
           </q-card-section>
           <q-card-actions align="right">
             <q-btn flat label="Save" color="primary" v-close-popup @click="addRow()" ></q-btn>

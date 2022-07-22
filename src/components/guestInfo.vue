@@ -64,7 +64,7 @@ export default {
         <div class="text-overline text-orange-9"></div>
         <div class="text-h7 q-mt-sm q-mb-xs">Note</div>
         <div class="text-h6 text-center self-center">
-         You have 20 minutes for attending 10 aptitude questions. Click start test to begin your test.
+         You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Click start test to begin your aptitude test. All the best.
         </div>
       </q-card-section>
 

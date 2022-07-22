@@ -9,7 +9,7 @@
       >
       <q-tab class="text-orange" name="questions" label="questions" />
       <q-tab class="text-teal" name="category" label="New Category" />
-      <q-tab class="text-blue" name="testing" label="Testing" />
+      <!-- <q-tab class="text-blue" name="testing" label="Testing" /> -->
         
       </q-tabs>
       <div class="q-gutter-y-sm" >
@@ -32,11 +32,24 @@
       row-key="question"
       binary-state-sort
       :rows-per-page-options="[10]"
+      
     >
      <template v-slot:top>
           <!-- <q-btn dense color="secondary" label="Add Question" @click="show_dialog = !show_dialog" no-caps></q-btn><br/> -->
           <q-btn dense color="primary" label="Add new Question" @click="show_dialog1 = !show_dialog1" no-caps></q-btn>
+          <q-space />
+          <q-select
+          v-model="visibleColumns"
+          @update:model-value="getQuestion()"
+          outlined
+          dense
+          options-dense
           
+          emit-value
+          map-options
+          :options="categoryoptions"
+          style="min-width: 150px"
+        />
         <div class="q-pa-md q-gutter-md">
         <q-dialog v-model="show_dialog">
         <q-card>
@@ -168,9 +181,11 @@
       :rows-per-page-options="[10]"
     >
             <template v-slot:top>
+              
              <q-btn dense color="primary" label="Add new Category" @click="show_dialog2 = !show_dialog2" no-caps></q-btn>
+             
              <div class="q-pa-md q-gutter-md">
-                <q-dialog v-model="show_dialog2">
+                <q-dialog v-model="show_dialog2" @click="setDefaultcat()">
               <q-card>
              <q-card-section style="width: 523px">
              <div class="text-h6">Category</div>
@@ -178,7 +193,7 @@
 
              <q-card-section style="width: 421px">
              <div class="row" style="width: 400px">
-              <q-input v-model="categoryname" autogrow label="Category Name" style="width: 200px"></q-input>
+              <q-input v-model="editcategories.category" autogrow label="Category Name" style="width: 200px"></q-input>
               </div>
               </q-card-section>
              <q-card-actions align="right">
@@ -188,23 +203,27 @@
              </q-dialog>
              </div>
             </template>
-           <!-- <template v-slot:body="props1">
-            <q-tr :props1="props1">
-            <q-td key="category" :props1="props1">
+           <template v-slot:body="props">
+            <q-tr :props="props">
+            <q-td key="category" :props="props">
             {{ props.row.category }}
            
              </q-td>
-             <q-td key="company" :props1="props1">
+             <!-- <q-td key="company" :props="props">
             {{ props.row.company_id }}
             
-              </q-td>
+              </q-td> -->
+              <q-td key="actions" :props="props" style="width:131px">
+              <q-btn text-color="blue"  icon="edit"  @click="editcategory(props.row)" flat round dense></q-btn>
+              <q-btn text-color="red" icon="delete_forever"  @click="deletecategory(props.row)" flat round dense></q-btn>
+            </q-td>
               </q-tr>
-              </template> -->
+              </template>
           </q-table>
 
           </q-tab-panel>
           </q-tab-panels>
-          <q-tab-panels
+          <!-- <q-tab-panels
           v-model="tab"
           animated
           transition-prev="fade"
@@ -233,14 +252,14 @@
           </q-item-section>
         </template>
 
-        <!-- <q-card  >
+        <q-card  >
           <q-card-section  v-for="(question,index) in product" :key="index"> 
            Question : {{ question.question}}, <br>
            Options : {{ question.options}}, <br>
            Answer  :  {{ question.answeralpha}}
             
           </q-card-section>
-        </q-card> -->
+        </q-card>
         <q-separator />
        
   <div class="q-pa-md">
@@ -255,7 +274,7 @@
     </q-list>
   </div>
           </q-tab-panel>
-          </q-tab-panels>
+          </q-tab-panels> -->
           </div>
     </div>
     
@@ -292,9 +311,11 @@ export default {
     var show_dialog2 = ref(false)
     var editedIndex = ref(-1)
     var categoryname = ref()
+    var editcategoryid = ref()
     const categoryoptions = ref([])
     const finds = ref({})
     const products = ref([])
+    const visibleColumns = ref()
     const numberToChar = (number) => {
       if(number === null) {
         return null
@@ -323,12 +344,20 @@ export default {
         category: '',
         category_id: ''
       }])
+      var editcategories = ref([ {
+        category_id : '',
+        category : ''
+      }]) 
       const defaultItem = ref({
         question: '',
         options: [],
         answeralpha: '',
         companynew: null,
         
+      })
+      const defaultcat = ref({
+        category_id : '',
+        category : ''
       })
       const addnewitem = () => {
         //console.log("looooo")
@@ -339,6 +368,11 @@ export default {
       editedItem.value = ref(Object.assign({}, defaultItem)) 
       editedIndex.value = -1
 
+     }
+     const setDefaultcat = () => {
+      //console.log('aa')
+       editcategories.value = ref(Object.assign({}, defaultcat))
+       
      }
     const rows = ref([])
     const rows1 = ref([])
@@ -354,8 +388,12 @@ export default {
       finds.value.options = finds.value.options.splice(0, finds.value.options.length)
       //console.log(finds.value.options)
     }
+    const sample = () => {
+//console.log(visibleColumns.value)
+    }
     
     const getQuestion = () => {
+      //console.log(visibleColumns.value)
       api
           .get(`analytic/getallqstns`,
           {
@@ -390,7 +428,7 @@ export default {
 //           api.get(`user/getcategory/${uniqueChars}`).then(res => { console.log(res)})
     
 
-    var result=resdata.filter(obj=> obj.company_id == admin.value.company_id);
+    var result=resdata.filter(obj=> obj.company_id == admin.value.company_id && obj.category_id == visibleColumns.value);
  //console.log(result);
  //console.log(company.value.name)
   //rows.value = resdata
@@ -447,11 +485,16 @@ export default {
           var result=responsedata.filter(obj=> obj.company_id == admin.value.company_id);
 // console.log(result);
  rows1.value  = result
+ let array = []
          categoryoptions.value = result.map((x) => { 
+          const category = x.category_id
         
+      
+      array.push(category)
         return {'label' : x.category, 'value' : x.category_id }
       })
-        // console.log(rows1.value)
+       visibleColumns.value = array[0]
+         //console.log(array)
       })
     }
      onMounted(() => {
@@ -544,7 +587,7 @@ const addRow = () => {
     //  console.log(split_string)
      let adc = JSON.stringify(ab)
     // let newanswer = numberToChar(editedItem.value.answeralpha)
-    console.log(additem.value)
+    //console.log(additem.value)
     api.post('analytic/insertqstn', {question :additem.value.question ,options:adc,answer : additem.value.answeralpha,company_id: admin.value.company_id,category_id: additem.value.category},
     {
   headers: {
@@ -574,6 +617,29 @@ const addRow = () => {
 //       this.close()
     
 }
+const deletecategory = (item) => {
+  //console.log('hi',item)
+  let catid = Object.assign({}, item);
+  confirm("Are you sure you want to delete this Category?") && api.delete(`analytic/deletecategory/${catid.category_id}`,{
+   headers: {
+     Authorization: 'Bearer ' + token.value
+   }
+ }).then(() => {
+  getCategories();
+  getQuestion();
+ }).catch((res) => {
+            
+             console.log(res)
+            
+           })
+  //console.log(catid.category_id)
+}
+const editcategory = (item) => {
+  editedIndex.value = rows1.value.indexOf(item)
+  editcategories.value = Object.assign({}, item);
+  //console.log(editcategories.value.category_id)
+  show_dialog2.value = true
+}
 const deleteItem = (item) => {
   editedItem.value = Object.assign({}, item);
  // const index = data.indexOf(item);
@@ -588,7 +654,7 @@ const deleteItem = (item) => {
  })
  .catch((res) => {
             
-             //console.log(res)
+             console.log(res)
             
            })
        
@@ -610,14 +676,26 @@ const close = () => {
       }, 300)
 }
 const addCategory = () => {
-  api.post('user/addcategory',{category : categoryname.value, company_id : admin.value.company_id,}
+  if(editedIndex.value > -1) {
+    api.put(`analytic/editcategory/${editcategories.value.category_id}`,{category : editcategories.value.category}, {
+       headers: {
+     Authorization: 'Bearer ' + token.value
+   }
+    }).then( res => {
+      getCategories();
+      console.log(res)
+    })
+  }
+  else {
+    api.post('user/addcategory',{category : categoryname.value, company_id : admin.value.company_id,}
   ).then(res => {
     console.log(res)
     getCategories();
   }).catch(err => {
     console.log(err)
   })
-  console.log(categoryname.value)
+ // console.log(categoryname.value)
+  }
 } 
 const columns = [
   {
@@ -626,7 +704,8 @@ const columns = [
     label: 'Questions',
     align: 'left',
     field: 'question',
-    
+    // field: row => row.name,
+    // format: val => `${val}`,
     sortable: true
   },
   { name: 'options', align: 'center', label: 'Options', field: 'options', sortable: true },
@@ -643,10 +722,16 @@ const columns1 = [
     name: 'category',
     required: true,
     label: 'Category Name',
-    align: 'left',
+    align: 'center',
     field: 'category',
   },
   // { name: 'company', align: 'center', label: 'Company', field: 'company_id', sortable: true },
+  {
+          name: "actions",
+          label: "Actions",
+          field: "actions", align: 'center',headerStyle:'width:100px'
+        }
+  
 
 ]
 return {
@@ -675,9 +760,17 @@ return {
   clearinputvalue,
   addCategory,
   getCategories,
+  deletecategory,
+  editcategory,
+  sample,
+  getQuestion,
+  setDefaultcat,
   rows1,
+  visibleColumns,
   products,
   categoryoptions,
+  editcategoryid,
+  editcategories,
   answeroptions: [
         {
           label: 'A',

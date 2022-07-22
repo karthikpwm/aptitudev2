@@ -84,7 +84,7 @@ api
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
         rows.value = result
-        //console.log(rows.value)
+       // console.log(rows.value)
     //  }
          })
          //console.log(rows.value)
@@ -111,12 +111,13 @@ $q.loading.hide()
       style: 'width: 300px',
       sortable: true
     },
-    { name: 'marks scored', align: 'center', label: 'Marks', field: 'marks', sortable: true },
+    { name: 'marks scored', align: 'center', label: 'Marks', field: 'totalcorrect', sortable: true },
     { name: 'time', label: 'Time taken', field: 'timetaken',align: 'center', sortable: true },
     { name: 'date', label: 'Date', field: 'date',align: 'center', sortable: true },
     { name: 'email', label: 'Email',align: 'center', field: 'email' },
     { name: 'mobile', label: 'Mobile',align: 'center', field: 'mobile' },
-    { name: 'ctc', label: 'Last CTC',align: 'center', field: 'lastctc' },
+    { name: 'ctc', label: 'Last CTC',align: 'center', field: 'ctc' },
+    { name: 'position', label: 'Position',align: 'center', field: 'position' },
     { name: 'pincode', label: 'Pincode',align: 'center', field: 'pincode' },
     
   ]

@@ -19,7 +19,9 @@
 <script>
 export default {
   setup () {
+    const frontpage = ref(false)
     return {
+      frontpage,
       lorem: ''
     }
   }

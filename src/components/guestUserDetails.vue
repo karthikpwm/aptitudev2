@@ -35,10 +35,35 @@ export default {
          if (!user.value.name || !user.value.position || !user.value.email || !user.value.mobile || !user.value.ctc || !user.value.pincode) {
           //alert('Invalid')
            //console.log('nooo')
-           $q.notify({
-          type: 'negative',
-          message: 'Must Enter All Fields.'
-        })
+           if(!user.value.name)
+           {
+            alert('Enter your name')
+           }
+           else if(!user.value.position)
+           {
+            alert('Enter your Position')
+           }
+           else if(!user.value.email)
+           {
+            alert('Enter your email')
+           }
+           else if(!user.value.mobile)
+           {
+            alert('Enter your mobile No')
+           }
+           else if(!user.value.ctc)
+           {
+            alert('Enter your ctc')
+           }
+          else if(!user.value.pincode)
+           {
+            alert('Enter your pincode')
+           }
+           //alert( || !user.value.position || !user.value.email || !user.value.mobile || !user.value.ctc || !user.value.pincode)
+        //    $q.notify({
+        //   type: 'negative',
+        //   message: 'Must Enter All Fields.'
+        // })
           // $q.notify({
           //   color: 'red-5',
           //   textColor: 'white',
@@ -142,24 +167,37 @@ export default {
         type="text"
         v-model="user.mobile"
         label="Your mobile no"
+        mask="##########"
         lazy-rules
-        
+        :rules="[
+          val => val !== null && val !== '' || 'Please type your mobile no',
+          val => val.length >= 10 && val.length <= 10 || 'Enter Only Ten no'
+        ]"
       />
       <q-input
         
         type="text"
         v-model="user.ctc"
-        label="Your last CTC"
+        label="Your last Month Salary"
         lazy-rules
-        
+        mask="########"
+        hint="In Rupees "
+        :rules="[
+          val => val !== null && val !== '' || 'your last month salary',
+          val => val.length >= 1 && val.length <= 8 || 'Enter Valid Salary'
+        ]"
       />
       <q-input
         
         type="text"
         v-model="user.pincode"
+        mask="######"
         label="Residence pincode"
         lazy-rules
-        
+        :rules="[
+          val => val !== null && val !== '' || 'Your Pincode',
+          val => val.length >= 1 && val.length <= 6 || 'Enter Valid Pincode'
+        ]"
       />
 
       <!-- <q-toggle v-model="accept" label="I accept the license and terms" /> -->

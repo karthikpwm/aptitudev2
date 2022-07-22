@@ -74,9 +74,11 @@ export default {
           })
           .catch((res) => {
              $q.loading.hide()
+
+            //  alert("Email or Password did not match")
             $q.dialog({
         title: 'Alert',
-        message: "Server Not Found"
+        message: "Email or Password did not match"
       }).onOk(() => {
         // console.log('OK')
       }).onCancel(() => {
