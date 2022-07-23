@@ -52,7 +52,7 @@
            
           </q-td>
           <q-td key="actions" :props="props" style="width:131px">
-          <q-btn text-color="green" text="Print" icon="edit"  @click="onRowClick(props.row)" flat round dense></q-btn>
+          <q-btn text-color="green" text="Print" icon="print"  @click="onRowClick(props.row)" flat round dense></q-btn>
               <q-btn text-color="red" icon="delete_forever"  @click="deleteItem(props.row)" flat round dense></q-btn>
             </q-td>
         </q-tr>

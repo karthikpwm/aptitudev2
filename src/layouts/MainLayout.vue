@@ -60,7 +60,7 @@
                 E-Mail Link
               </q-item-section>
             </q-item>
-            <q-item clickable v-if="!arights" v-ripple to="/editqstn" @click="protectPassword(evt)" >
+            <!-- <q-item clickable v-if="!arights" v-ripple to="/editqstn" @click="protectPassword(evt)" >
               <q-item-section avatar>
                 <q-icon name="drafts" />
               </q-item-section>
@@ -68,7 +68,7 @@
               <q-item-section >
                Edit Questions
               </q-item-section>
-            </q-item>
+            </q-item> -->
             <!-- <q-item clickable v-if="!arights" v-ripple to="/user">
               <q-item-section avatar>
                 <q-icon name="drafts" />
