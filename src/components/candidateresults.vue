@@ -52,6 +52,7 @@
            
           </q-td>
           <q-td key="actions" :props="props" style="width:131px">
+          <q-btn text-color="green" text="Print" icon="edit"  @click="onRowClick(props.row)" flat round dense></q-btn>
               <q-btn text-color="red" icon="delete_forever"  @click="deleteItem(props.row)" flat round dense></q-btn>
             </q-td>
         </q-tr>
@@ -161,7 +162,7 @@ const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
          //console.log('sum',val.timetaken,resdata)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
-        rows.value = result
+        //rows.value = result
         //console.log(rows.value)
     //  }
          })
@@ -239,10 +240,12 @@ confirm("Are you sure you want to delete this result?") &&
         }
   ]
 
-  const onRowClick = (_, row) => {
+  const onRowClick = (item) => {
+    //console.log(item)
+    editedItem.value = Object.assign({}, item);
     let windowFeatures = "left=200,top=200,width=920,height=520";
       //let route = router.push('/printcanquestions/'+row.candidate_id,
-      let route = router.resolve({ path: '/printcanquestions/'+row.candidate_id,
+      let route = router.resolve({ path: '/printcanquestions/'+editedItem.value.candidate_id,
        
   headers: {
     Authorization: 'Bearer ' + token.value
