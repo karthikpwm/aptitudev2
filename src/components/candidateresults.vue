@@ -100,9 +100,9 @@ export default {
         candidate_id: ''
       }])
     onMounted(() => {
-      getmarks();
+      getMarks();
     })
-    const getmarks = () => {
+    const getMarks = () => {
       $q.loading.show({
           message: 'Loading...pls wait..',
           boxClass: 'text-white',
@@ -110,15 +110,15 @@ export default {
           spinnerSize: 60
         })
       //console.log(token)
-api
-          .get(`analytic/getmarks`,
+api.get(`analytic/getmarks`,
           {
   headers: {
     Authorization: 'Bearer ' + token.value
   }
-}).then(async (res) => {        
+}).then(async (res) => { 
+  $q.loading.hide()       
   let resdata = res.data.data
-  $q.loading.hide()
+  
   // resdata.forEach(element => {
   //   let pp = 1200
   //  let ab = pp - element.time
@@ -163,20 +163,15 @@ const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
         rows.value = result
-        //console.log(rows.value)
+        console.log(rows.value)
     //  }
          })
          //console.log(rows.value)
     //rows.value = resdata
-
-
-
-
 }).catch( (res)=> {
 $q.loading.hide()
 })
-
-    }
+}
 
    const deleteItem = (item) => {
     promptdialog.value = true
@@ -267,7 +262,7 @@ confirm("Are you sure you want to delete this result?") &&
       columns,
       onRowClick,
       deleteItem,
-      getmarks,
+      getMarks,
       deletecheck,
       password,
       promptdialog,
