@@ -162,7 +162,7 @@ const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
          //console.log('sum',val.timetaken,resdata)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
-        //rows.value = result
+        rows.value = result
         //console.log(rows.value)
     //  }
          })
@@ -241,7 +241,7 @@ confirm("Are you sure you want to delete this result?") &&
   ]
 
   const onRowClick = (item) => {
-    //console.log(item)
+    console.log(item)
     editedItem.value = Object.assign({}, item);
     let windowFeatures = "left=200,top=200,width=920,height=520";
       //let route = router.push('/printcanquestions/'+row.candidate_id,
