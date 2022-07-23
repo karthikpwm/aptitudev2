@@ -109,7 +109,26 @@
           </q-card>
     </q-dialog>
           </div>
-          
+          <div class="q-pa-sm q-gutter-md">
+            <q-dialog v-model="promptdialog" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Password</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="password" autofocus @keyup.enter="promptdialog = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Enter" v-close-popup  @click="deletecheck()"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+          </div>
+         
       </template>
       <!-- <template v-slot:top-right>
        <q-btn dense color="secondary" label="Add new Question" @click="show_dialog1 = !show_dialog1" no-caps></q-btn>
@@ -309,6 +328,7 @@ export default {
     var show_dialog = ref(false)
     var show_dialog1 = ref(false)
     var show_dialog2 = ref(false)
+    var promptdialog = ref(false)
     var editedIndex = ref(-1)
     var categoryname = ref()
     var editcategoryid = ref()
@@ -316,6 +336,7 @@ export default {
     const finds = ref({})
     const products = ref([])
     const visibleColumns = ref()
+    const password = ref()
     const numberToChar = (number) => {
       if(number === null) {
         return null
@@ -652,10 +673,16 @@ const editcategory = (item) => {
   //console.log(editcategories.value.category_id)
   show_dialog2.value = true
 }
-const deleteItem = (item) => {
-  editedItem.value = Object.assign({}, item);
- // const index = data.indexOf(item);
-      confirm("Are you sure you want to delete this question?") &&
+const deletecheck = () => {
+  console.log(password.value)
+  api.put('user/checkpassword',{password : password.value},{headers: {
+     Authorization: 'Bearer ' + token.value
+   }
+   }).then((res) => {
+    console.log(res)
+   const result = res.data.data
+   console.log(result)
+         confirm("Are you sure you want to delete this question?") &&
        api.delete(`analytic/deleteqstn/${editedItem.value.question_id }`,
        {
    headers: {
@@ -669,6 +696,29 @@ const deleteItem = (item) => {
              console.log(res)
             
            })
+   }).catch(err => {
+    console.log(err)
+   alert('paswword did not match')} )
+}
+const deleteItem = (item) => {
+
+  promptdialog.value = true
+   editedItem.value = Object.assign({}, item);
+//  // const index = data.indexOf(item);
+//       confirm("Are you sure you want to delete this question?") &&
+//        api.delete(`analytic/deleteqstn/${editedItem.value.question_id }`,
+//        {
+//    headers: {
+//      Authorization: 'Bearer ' + token.value
+//    }
+//  }).then((res) => {
+//   getQuestion();
+//  })
+//  .catch((res) => {
+            
+//              console.log(res)
+            
+//            })
        
 }
 const editItem = (item) => {
@@ -750,6 +800,7 @@ return {
   tab: ref('questions'),
   show_dialog,
   show_dialog1,
+  promptdialog,
   show_dialog2,
   categoryname,
   columns,
@@ -777,12 +828,14 @@ return {
   sample,
   getQuestion,
   setDefaultcat,
+  deletecheck,
   rows1,
   visibleColumns,
   products,
   categoryoptions,
   editcategoryid,
   editcategories,
+  password,
   answeroptions: [
         {
           label: 'A',

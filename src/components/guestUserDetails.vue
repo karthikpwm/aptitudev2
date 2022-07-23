@@ -171,7 +171,7 @@ export default {
         lazy-rules
         :rules="[
           val => val !== null && val !== '' || 'Please type your mobile no',
-          val => val.length >= 10 && val.length <= 10 || 'Enter Only Ten no'
+          val => val.length >= 10 && val.length <= 10 || 'Enter Only 10 digits'
         ]"
       />
       <q-input

@@ -4,15 +4,79 @@
   </div>
   <div class="q-pa-md">
     <q-table
-      title="Marks scored by candidate out of 10"
+      title="Candidate Results"
       :rows="rows"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[15]"
       @row-click="onRowClick" 
-    />
+    >
+    <template v-slot:body="props">
+      
+        <q-tr :props="props">
+        
+          <q-td key="name" :props="props">
+            {{ props.row.name }}
+           
+          </q-td>
+          <q-td key="totalcorrect" :props="props">
+            {{ props.row.totalcorrect }}
+            
+          </q-td>
+          <q-td key="timetaken" :props="props">
+            {{ props.row.timetaken }}
+            
+          </q-td>
+          <q-td key="date" :props="props">
+            {{ props.row.date }}
+           
+          </q-td>
+          <q-td key="email" :props="props">
+            {{ props.row.email }}
+           
+          </q-td>
+          <q-td key="mobile" :props="props">
+            {{ props.row.mobile }}
+           
+          </q-td>
+          <q-td key="ctc" :props="props">
+            {{ props.row.ctc }}
+           
+          </q-td>
+          <q-td key="position" :props="props">
+            {{ props.row.position }}
+           
+          </q-td>
+          <q-td key="pincode" :props="props">
+            {{ props.row.pincode }}
+           
+          </q-td>
+          <q-td key="actions" :props="props" style="width:131px">
+              <q-btn text-color="red" icon="delete_forever"  @click="deleteItem(props.row)" flat round dense></q-btn>
+            </q-td>
+        </q-tr>
+      </template>
+      </q-table>
   </div>
-  
+  <div class="q-pa-sm q-gutter-md">
+            <q-dialog v-model="promptdialog" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Password</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="password" autofocus @keyup.enter="promptdialog = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Enter" v-close-popup  @click="deletecheck()"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+          </div>
 </template>
 
 <script>
@@ -29,7 +93,15 @@ export default {
     const { token,admin} = storeToRefs( store )
     const router = useRouter()
     const rows = ref([])
+    const password = ref()
+    var promptdialog = ref(false)
+    var editedItem = ref([ {
+        candidate_id: ''
+      }])
     onMounted(() => {
+      getmarks();
+    })
+    const getmarks = () => {
       $q.loading.show({
           message: 'Loading...pls wait..',
           boxClass: 'text-white',
@@ -71,7 +143,9 @@ api
     //  }       
     //  else {
     // val.qw = pp - val.time
-    const timeLeft = val.time;
+   if(val.timepassed != 0)
+   {
+const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
        const minutes = Math.floor(timeLeft / 60);
        let seconds = timeLeft % 60;
 
@@ -80,11 +154,15 @@ api
       }
        
       val.timetaken = `${minutes}:${seconds}`;
+   } else {
+    val.timetaken = val.timepassed
+   }
+    
          //console.log('sum',val.timetaken,resdata)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
         rows.value = result
-       // console.log(rows.value)
+        //console.log(rows.value)
     //  }
          })
          //console.log(rows.value)
@@ -97,10 +175,45 @@ api
 $q.loading.hide()
 })
 
-    })
-   
+    }
+
+   const deleteItem = (item) => {
+    promptdialog.value = true
+  editedItem.value = Object.assign({}, item);
+ // const index = data.indexOf(item);
+
+}
+
+const deletecheck = () => { 
+api.put('user/checkpassword',{password : password.value},{headers: {
+     Authorization: 'Bearer ' + token.value
+   }
+   }).then((res) => {
+    console.log(res)
+   const result = res.data.data
+        
+confirm("Are you sure you want to delete this result?") &&
+       api.delete(`analytic/deleteresults/${editedItem.value.candidate_id }`,
+       {
+   headers: {
+     Authorization: 'Bearer ' + token.value
+   }
+ }).then((res) => {
+
+ console.log(res)
+ getmarks();
+ })
+ .catch((res) => {
+           
+             console.log(res)
+            
+           })
+   }).catch(err => {
+    console.log(err)
+   alert('paswword did not match')} )
 
 
+}
   const columns = [
     {
       name: 'name',
@@ -111,15 +224,19 @@ $q.loading.hide()
       style: 'width: 300px',
       sortable: true
     },
-    { name: 'marks scored', align: 'center', label: 'Marks', field: 'totalcorrect', sortable: true },
-    { name: 'time', label: 'Time taken', field: 'timetaken',align: 'center', sortable: true },
+    { name: 'totalcorrect', align: 'center', label: 'Marks', field: 'totalcorrect', sortable: true },
+    { name: 'timetaken', label: 'Duration', field: 'timetaken',align: 'center', sortable: true },
     { name: 'date', label: 'Date', field: 'date',align: 'center', sortable: true },
     { name: 'email', label: 'Email',align: 'center', field: 'email' },
     { name: 'mobile', label: 'Mobile',align: 'center', field: 'mobile' },
     { name: 'ctc', label: 'Last CTC',align: 'center', field: 'ctc' },
     { name: 'position', label: 'Position',align: 'center', field: 'position' },
     { name: 'pincode', label: 'Pincode',align: 'center', field: 'pincode' },
-    
+    {
+          name: "actions",
+          label: "Actions",
+          field: "actions", align: 'center',headerStyle:'width:100px'
+        }
   ]
 
   const onRowClick = (_, row) => {
@@ -146,7 +263,13 @@ $q.loading.hide()
     return {
       columns,
       onRowClick,
+      deleteItem,
+      getmarks,
+      deletecheck,
+      password,
+      promptdialog,
       rows,
+      editedItem,
        deletecan() {
          //console.log('working')
 

@@ -60,12 +60,12 @@
                 E-Mail Link
               </q-item-section>
             </q-item>
-            <q-item clickable v-if="!arights" v-ripple to="/editqstn">
+            <q-item clickable v-if="!arights" v-ripple to="/editqstn" @click="protectPassword(evt)" >
               <q-item-section avatar>
                 <q-icon name="drafts" />
               </q-item-section>
 
-              <q-item-section>
+              <q-item-section >
                Edit Questions
               </q-item-section>
             </q-item>
@@ -167,6 +167,10 @@ export default ({
          router.push('/login');
         
       }
+      const protectPassword = (evt) => {
+        to="/editqstn"
+        alert('hi')
+      }
     return {
       countDown : 30,
       timer:null,
@@ -174,7 +178,8 @@ export default ({
       adminname,
       drawer,
       a,
-      arights
+      arights,
+      protectPassword
      
       
     }

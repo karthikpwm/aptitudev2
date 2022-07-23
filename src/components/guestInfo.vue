@@ -42,6 +42,7 @@ export default {
     }
     return {
       start,
+      lorem: 'You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Click start test to begin your aptitude test. All the best.'
     }
   },
 }
@@ -50,26 +51,19 @@ export default {
 
  <template>
   <div class="page-container window-height row justify-center items-center">
-    <div class="row justify-center">
-    <q-card class="my-card-align=“center”" flat bordered>
-      <q-img
-        src=""
-        img-alt="Image"
-        img-top
-        style="max-width: 4rem;"
-        class="mb-2"
-      />
-
-      <q-card-section >
-        <div class="text-overline text-orange-9"></div>
-        <div class="text-h7 q-mt-sm q-mb-xs">Note</div>
-        <div class="text-h6 text-center self-center">
-         You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Click start test to begin your aptitude test. All the best.
-        </div>
+    <q-card class="my-card justify-center">
+      <q-card-section>
+        <div class="text-h6">Note</div>
+        
       </q-card-section>
 
-      <q-card-actions>
-        <q-btn flat color="dark" label="" />
+      <q-card-section>
+        {{ lorem }}
+      </q-card-section>
+
+      <q-separator dark />
+      <q-card-actions vertical align="center">
+        
         <q-btn class="bg-cyan-8 text-grey-1" label="Start Test" @click="start()" rounded />
 
         <q-space />
@@ -83,17 +77,7 @@ export default {
           @click="expanded = !expanded"
         /> -->
       </q-card-actions>
-
-      <q-slide-transition>
-        <div v-show="expanded">
-          <q-separator />
-          <q-card-section class="text-subitle2">
-            {{ lorem }}
-          </q-card-section>
-        </div>
-      </q-slide-transition>
     </q-card>
-  </div>
   </div>
 </template>
 

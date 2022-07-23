@@ -216,6 +216,9 @@
           />
         </template>
            </q-input></div>
+           <div class="row">
+            <q-input v-if="editedItem.usertype === 'admin'" v-model="editedItem.apassword" autogrow label="Access Password" style="width: 200px"></q-input> 
+            </div>
            <!-- <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div> -->
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
            <!-- <div class="row"><q-input disable style="width: 200px" v-model="editedItem.company_id"  label="Company" /></div> -->
@@ -257,7 +260,7 @@
           </q-td>
           <q-td key="actions" :props="props" style="width:131px">
               <q-btn text-color="blue"  icon="edit"  @click="editItem(props.row)" flat round dense></q-btn>
-              <q-btn text-color="red" icon="delete_forever" :disable="!deltrights || props.row.usertype === 'admin'"  @click="deleteItem(props.row)" flat round dense></q-btn>
+              <q-btn v-if="deltrights" text-color="red" icon="delete_forever" :disable="!deltrights || props.row.usertype === 'admin'"  @click="deleteItem(props.row)" flat round dense></q-btn>
             </q-td>
           <!-- <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
@@ -406,7 +409,9 @@ export default {
         name: '',
         password: '',
         company_id: '',
-        newpassword:''
+        newpassword:'',
+        apassword: '',
+        usertype: ''
       }])
   const setDefaultValue = () => {
       signup.value = ref(Object.assign({}, defaultValue)) 
@@ -420,7 +425,7 @@ export default {
       if(editedItem.value.newpassword != '' && editedItem.value.newpassword != undefined)
       {
       //console.log(editedItem.value.newpassword)
-      api.put(`user/editpassword/${editedItem.value.user_id}`,{name :editedItem.value.name ,password:editedItem.value.newpassword ,email :editedItem.value.email ,company_id:editedItem.value.company_id},
+      api.put(`user/editpassword/${editedItem.value.user_id}`,{name :editedItem.value.name ,password:editedItem.value.newpassword ,email :editedItem.value.email ,company_id:editedItem.value.company_id,apassword: editedItem.value.apassword},
       {
         headers: {
      Authorization: 'Bearer ' + token.value
