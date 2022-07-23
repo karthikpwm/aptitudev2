@@ -32,7 +32,7 @@
       row-key="question"
       binary-state-sort
       :rows-per-page-options="[10]"
-      
+      :visible-columns="visiblecolumns"
     >
      <template v-slot:top>
           <!-- <q-btn dense color="secondary" label="Add Question" @click="show_dialog = !show_dialog" no-caps></q-btn><br/> -->
@@ -393,7 +393,7 @@ export default {
     }
     
     const getQuestion = () => {
-      //console.log(visibleColumns.value)
+      console.log(visibleColumns.value)
       api
           .get(`analytic/getallqstns`,
           {
@@ -429,23 +429,35 @@ export default {
     
 //&& obj.category_id == undefined || obj.category_id === visibleColumns.value
     var result=resdata.filter(obj=> obj.company_id == admin.value.company_id);
- //console.log(result);
+ console.log(result);
  //console.log(company.value.name)
   //rows.value = resdata
-  rows.value = result
-  const categories = {};
+  let array = []
+  result.map((x) => { 
+          const category = x.category_id
+      array.push(category)
+      })
+      if( visibleColumns.value == undefined)
+      {
+       visibleColumns.value = array[0]
+      }
+      
+      console.log(visibleColumns.value)
+      var result100 = result.filter(obj => obj.category_id == visibleColumns.value)
+  rows.value = result100
+  // const categories = {};
   
-   result.map(x => {
-      const category = x.category
+  //  result.map(x => {
+  //     const category = x.category
      
-      if(categories[category] === undefined)
-      categories[category] = []
+  //     if(categories[category] === undefined)
+  //     categories[category] = []
       
-      categories[category].push(x)
+  //     categories[category].push(x)
       
-    })
+  //   })
     // console.log(categories)
-    products.value = categories
+    // products.value = categories
 //  var data = result.filter((obj, pos, arr) => {
 //             return arr.map(mapObj =>
 //                   mapObj.category).indexOf(obj.category) == pos;
@@ -485,15 +497,15 @@ export default {
           var result=responsedata.filter(obj=> obj.company_id == admin.value.company_id);
 // console.log(result);
  rows1.value  = result
- let array = []
+ //let array = []
          categoryoptions.value = result.map((x) => { 
-          const category = x.category_id
+          //const category = x.category_id
         
       
-      array.push(category)
+      //array.push(category)
         return {'label' : x.category, 'value' : x.category_id }
       })
-       visibleColumns.value = array[0]
+       //visibleColumns.value = array[0]
          //console.log(array)
       })
     }
@@ -687,7 +699,7 @@ const addCategory = () => {
     })
   }
   else {
-    api.post('user/addcategory',{category : categoryname.value, company_id : admin.value.company_id,}
+    api.post('user/addcategory',{category : editcategories.value.category, company_id : admin.value.company_id,}
   ).then(res => {
     console.log(res)
     getCategories();
