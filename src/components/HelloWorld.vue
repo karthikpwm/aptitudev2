@@ -10,8 +10,8 @@ import BaseTimer from "../components/BaseTimer.vue";
 
 export default {
   setup () {
-    const visible = ref(false)
-    const showSimulatedReturnData = ref(false)
+    const visible = ref(true)
+    const showSimulatedReturnData = ref(true)
      const $q = useQuasar()
   // $q.loading.hide()
         const store = useUserStore();
@@ -42,9 +42,6 @@ export default {
     onMounted( async () => {
         //$q.loading.show()
       // timelimit.value = timelimit.value
-        visible.value = true
-        showSimulatedReturnData.value = false
-
       await store.getQuestion(testlog_id.value,candidate_id.value)
       let i = 0;
 //       questions.value.sort(function (x, y) {
@@ -65,8 +62,10 @@ export default {
       //console.log(questions)
       //console.log(lastvalue)
         $q.loading.hide()
-       visible.value = false
-          showSimulatedReturnData.value = true
+      
+          
+          visible.value = false
+        
 
     })
     const prev = () => {
