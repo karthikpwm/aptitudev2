@@ -150,6 +150,12 @@ import moment from 'moment'
       //console.log('compid',company_id.value)
       //console.log('orgnltoken',company_id)
       const getCategories = () => {
+        $q.loading.show({
+          message: 'Loading...pls wait..',
+          boxClass: 'text-white',
+          spinnerColor: 'white',
+          spinnerSize: 60
+        })
       api.get("user/getcategories",
       {
         headers: {
@@ -167,6 +173,7 @@ import moment from 'moment'
         credit.value = val.credit
         console.log(val.credit)
       })
+      $q.loading.hide()
       })
     }
     onBeforeMount(async () => {

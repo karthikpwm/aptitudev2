@@ -122,7 +122,7 @@ export default {
 </script>
 
 <template>
-<div class="page-container window-height row justify-center items-center bg-image" >
+<div class="page-container window-height row justify-center items-center" >
   <div id="blueDIV" class="q-pa-md row justify-center" style="background-color: white;max-width: 355px;max-height:465px; border-radius:25px;" rounded>
   <div id="myDIV" class="col-12 text-center self-center" style="border-radius: 10px;">
     <h5 class="text-h6 text-uppercase q-my-none" style="color: black;">Enter Your Details</h5>
@@ -132,12 +132,13 @@ export default {
     <q-form
       @submit="onSubmit"
       @reset="onReset"
-      class="q-gutter-xm"
+      
     >
       <q-input
         
         v-model="user.name"
-        label="Your name "
+        
+        placeholder="Your name"
       />
 <!-- {
   name : this.name,
@@ -150,7 +151,8 @@ export default {
         
         type= "text"
         v-model="user.position"
-        label="Position"
+        
+        placeholder="Position"
         
       />
 
@@ -158,7 +160,8 @@ export default {
         
         type="text"
         v-model="user.email"
-        label="Your email id"
+        
+        placeholder="Your email id"
         
       />
 
@@ -166,11 +169,12 @@ export default {
         
         type="text"
         v-model="user.mobile"
-        label="Your mobile no"
+        
+        placeholder="Your mobile no"
         mask="##########"
         lazy-rules
         :rules="[
-          val => val !== null && val !== '' || 'Please type your mobile no',
+          val => val !== null && val !== '' || 'Invalid',
           val => val.length >= 10 && val.length <= 10 || 'Enter Only 10 digits'
         ]"
       />
@@ -178,12 +182,13 @@ export default {
         
         type="text"
         v-model="user.ctc"
-        label="Your last Month Salary"
+        
+        placeholder="Your last Monthly Salary"
         lazy-rules
         mask="########"
         hint="In Rupees "
         :rules="[
-          val => val !== null && val !== '' || 'your last month salary',
+          val => val !== null && val !== '' || 'Invalid',
           val => val.length >= 1 && val.length <= 8 || 'Enter Valid Salary'
         ]"
       />
@@ -192,10 +197,11 @@ export default {
         type="text"
         v-model="user.pincode"
         mask="######"
-        label="Residence pincode"
+        
+        placeholder="Residence pincode"
         lazy-rules
         :rules="[
-          val => val !== null && val !== '' || 'Your Pincode',
+          val => val !== null && val !== '' || 'Invalid',
           val => val.length >= 1 && val.length <= 6 || 'Enter Valid Pincode'
         ]"
       />
@@ -214,8 +220,11 @@ export default {
 </template>
 
 <style>
-
-
+.q-field
+    .q-field__control, .q-field__marginal {
+      font-size: 14px !important;
+      height: 37px !important
+}
 .bg-image {
   position: relative;
     background-image: url();

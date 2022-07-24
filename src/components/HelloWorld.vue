@@ -10,6 +10,8 @@ import BaseTimer from "../components/BaseTimer.vue";
 
 export default {
   setup () {
+    const visible = ref(false)
+    const showSimulatedReturnData = ref(false)
      const $q = useQuasar()
   // $q.loading.hide()
         const store = useUserStore();
@@ -40,6 +42,9 @@ export default {
     onMounted( async () => {
         //$q.loading.show()
       // timelimit.value = timelimit.value
+        visible.value = true
+        showSimulatedReturnData.value = false
+
       await store.getQuestion(testlog_id.value,candidate_id.value)
       let i = 0;
 //       questions.value.sort(function (x, y) {
@@ -60,7 +65,8 @@ export default {
       //console.log(questions)
       //console.log(lastvalue)
         $q.loading.hide()
-
+       visible.value = false
+          showSimulatedReturnData.value = true
 
     })
     const prev = () => {
@@ -143,6 +149,8 @@ export default {
       prev,
       lastvalue,
       next,
+      visible,
+      showSimulatedReturnData,
         onSubmit (evt) {
         const formData = new FormData(evt.target)
         const data = []
@@ -206,7 +214,15 @@ alert("radio selected");
   <!-- <b-card-text>
       Question No.{{currentQuestion + 1}} of {{questions.length}}
     </b-card-text> -->
-   <div class="q-px-xm flex" style="background-color:white;font-weight:50;padding-left:10px" >Question {{ slide + 1}}</div>
+    <q-card> 
+      <transition
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
+      <q-card-section v-show="showSimulatedReturnData">
+        
+<div  class="q-px-xm flex" style="background-color:white;font-weight:50;padding-left:10px" >Question {{ slide + 1}}</div>
 <q-carousel
       v-model="slide"
       transition-prev="slide-right"
@@ -285,6 +301,18 @@ alert("radio selected");
           Attend All Questions And Click Finish
         </q-tooltip>
       </q-btn></div> -->
+
+  
+      </q-card-section>
+      </transition>
+      <q-inner-loading
+        :showing="visible"
+        label="Please wait..."
+        label-class="text-teal"
+        label-style="font-size: 1.1em"
+      />
+    </q-card>
+   
 </div>
 </template>
 

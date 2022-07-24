@@ -184,7 +184,7 @@ return {
       <div>
         <q-btn class="bg-cyan-8 text-grey-1 full-width" label="Login" aria-label="bold" type="submit"  rounded/><br/><br/>
         <q-btn label="Reset" type="reset" flat class="q-ml-md text-grey-1 bg-cyan-8" rounded aria-label="bold" @click="Reset()"   />
-        <q-btn label="Register" @click="toggle" to="/register" color="primary" />
+        <!-- <q-btn label="Register" @click="toggle" to="/register" color="primary" /> -->
       </div>
     </q-form>
   </div>

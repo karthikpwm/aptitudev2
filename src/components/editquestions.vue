@@ -307,7 +307,7 @@ import { useCompanyStore } from '../store/company'
 import {onMounted, ref } from 'vue'
 import { api } from '../boot/axios';
 import { useRouter } from 'vue-router'
-import { AddressbarColor } from 'quasar';
+import { AddressbarColor,useQuasar } from 'quasar';
 
 
 export default {
@@ -320,6 +320,7 @@ export default {
   }
 },
   setup () {
+    const $q = useQuasar()
     const store = useUserStore()
     const store2 = useCompanyStore()
     const { token,admin} = storeToRefs( store )
@@ -507,6 +508,12 @@ export default {
 
     }
     const getCategories = () => {
+      $q.loading.show({
+          message: 'Loading...pls wait..',
+          boxClass: 'text-white',
+          spinnerColor: 'white',
+          spinnerSize: 60
+        })
       api.get("user/getcategory",
       {
         headers: {
@@ -526,6 +533,7 @@ export default {
       //array.push(category)
         return {'label' : x.category, 'value' : x.category_id }
       })
+      $q.loading.hide() 
        //visibleColumns.value = array[0]
          //console.log(array)
       })
