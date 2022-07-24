@@ -11,6 +11,11 @@
       :rows-per-page-options="[15]"
       @row-click="onRowClick" 
     >
+     <template v-slot:top>
+          <!-- <q-btn dense color="secondary" label="Add Question" @click="show_dialog = !show_dialog" no-caps></q-btn><br/> -->
+          <q-btn dense color="primary" label="Go To Questions" @click="reidrect()" no-caps></q-btn>
+          
+          </template>
     <template v-slot:body="props">
       
         <q-tr :props="props">
@@ -71,7 +76,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Cancel" v-close-popup @click="close()" />
           <q-btn flat label="Enter" v-close-popup  @click="deletecheck()"/>
         </q-card-actions>
       </q-card>
@@ -95,6 +100,7 @@ export default {
     const router = useRouter()
     const rows = ref([])
     const password = ref()
+    var checkpoint = ref(-1)
     var promptdialog = ref(false)
     var editedItem = ref([ {
         candidate_id: ''
@@ -163,7 +169,7 @@ const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
         rows.value = result
-        console.log(rows.value)
+        //console.log(rows.value)
     //  }
          })
          //console.log(rows.value)
@@ -175,6 +181,8 @@ $q.loading.hide()
 
    const deleteItem = (item) => {
     promptdialog.value = true
+    checkpoint.value = rows.value.indexOf(item)
+    //console.log(checkpoint.value)
   editedItem.value = Object.assign({}, item);
  // const index = data.indexOf(item);
 
@@ -187,8 +195,9 @@ api.put('user/checkpassword',{password : password.value},{headers: {
    }).then((res) => {
     console.log(res)
    const result = res.data.data
-        
-confirm("Are you sure you want to delete this result?") &&
+        if(checkpoint.value > -1)
+        {
+          confirm("Are you sure you want to delete this result?") &&
        api.delete(`analytic/deleteresults/${editedItem.value.candidate_id }`,
        {
    headers: {
@@ -197,13 +206,18 @@ confirm("Are you sure you want to delete this result?") &&
  }).then((res) => {
 
  console.log(res)
- getmarks();
+ getMarks();
+ setDefaultItem();
  })
  .catch((res) => {
            
              console.log(res)
             
            })
+        } else {
+          router.push('/editqstn')
+        }
+
    }).catch(err => {
     console.log(err)
    alert('paswword did not match')} )
@@ -257,6 +271,18 @@ confirm("Are you sure you want to delete this result?") &&
 // })
 
   }
+  const setDefaultItem = () => {
+       
+      checkpoint.value = -1
+      password.value = null
+     }
+     const close = () => {
+      checkpoint.value = -1
+     }
+  const reidrect= () => {
+    //console.log(checkpoint.value)
+     promptdialog.value = true
+   }
   
     return {
       columns,
@@ -264,6 +290,10 @@ confirm("Are you sure you want to delete this result?") &&
       deleteItem,
       getMarks,
       deletecheck,
+      reidrect,
+      setDefaultItem,
+      close,
+      checkpoint,
       password,
       promptdialog,
       rows,
