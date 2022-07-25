@@ -11,11 +11,11 @@
       :rows-per-page-options="[15]"
       @row-click="onRowClick" 
     >
-     <template v-slot:top>
-          <!-- <q-btn dense color="secondary" label="Add Question" @click="show_dialog = !show_dialog" no-caps></q-btn><br/> -->
+     <!-- <template v-slot:top>
+          <q-btn dense color="secondary" label="Add Question" @click="show_dialog = !show_dialog" no-caps></q-btn><br/>
           <q-btn dense color="primary" label="Go To Questions" @click="reidrect()" no-caps></q-btn>
           
-          </template>
+          </template> -->
     <template v-slot:body="props">
       
         <q-tr :props="props">

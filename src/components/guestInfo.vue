@@ -42,7 +42,7 @@ export default {
     }
     return {
       start,
-      lorem: 'You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Click start test to begin your aptitude test. All the best.'
+      lorem: 'You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Kindly attend the test on a PC or Laptop only not your mobile phone. Click start test to begin your aptitude test. All the best.'
     }
   },
 }

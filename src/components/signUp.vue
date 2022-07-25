@@ -228,6 +228,22 @@
           </q-card-actions>
           </q-card>
     </q-dialog>
+    <q-dialog v-model="promptdialog" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Password</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="password" autofocus @keyup.enter="promptdialog = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" v-close-popup @click="close()" />
+          <q-btn flat label="Enter" v-close-popup  @click="deletecheck()"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
           </div>
     <q-table
       class="my-sticky-header-column-table"
@@ -238,6 +254,11 @@
       :filter="filter"
       :filter-method="myfilterMethod()"
     >
+    <template v-slot:top>
+          <!-- <q-btn dense color="secondary" label="Add Question" @click="show_dialog = !show_dialog" no-caps></q-btn><br/> -->
+          <q-btn dense color="primary" label="Go To Questions" @click="reidrect()" no-caps></q-btn>
+          
+          </template>
     <template v-slot:body="props">
         <q-tr :props="props">
          <q-td key="name" :props="props">
@@ -351,14 +372,15 @@
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../store/user'
 import { useCompanyStore } from '../store/company'
-
+import { useRouter } from 'vue-router'
 import { onMounted,ref,computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from '../boot/axios';
 
 export default {
   setup () {
-    
+    const router = useRouter()
+    const password = ref()
      const arights = computed(() => {
       
       if(admin.value.usertype === 'admin')
@@ -386,6 +408,7 @@ export default {
     const allcompdet = ref([])
     const show_dialog = ref(false)
     const createcompany = ref()
+    var promptdialog = ref(false)
     const signup = ref({
       email: '',
     username: '',
@@ -586,6 +609,25 @@ api
     //console.log(rows.value)
 
   }
+  const deletecheck = () => { 
+api.put('user/checkpassword',{password : password.value},
+{headers: {
+     Authorization: 'Bearer ' + token.value
+   }
+   }).then((res) => {
+        console.log(res)
+          router.push('/editqstn')
+
+   }).catch(err => {
+    console.log(err)
+   alert('paswword did not match')} )
+
+
+}
+  const reidrect= () => {
+    //console.log(checkpoint.value)
+     promptdialog.value = true
+   }
   const columns = [
   {
     name: 'name',
@@ -619,16 +661,20 @@ api
       deltrights,
       defaultValue,
       setDefaultValue,
+      password,
       // compdefault,
       setcompdefault,
       getUserDetails,
+      reidrect,
       show_dialog,
+      promptdialog,
       editItem,
       addRow,
       editedItem,
       myfilterMethod,
       deleteItem,
       getcompdetails,
+      deletecheck,
       allcompdet,
       companyoptions: [
         {
