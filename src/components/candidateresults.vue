@@ -150,7 +150,7 @@ api.get(`analytic/getmarks`,
     //  }       
     //  else {
     // val.qw = pp - val.time
-   if(val.timepassed != 0)
+   if(val.timepassed != 0 && val.timepassed != null)
    {
 const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
        const minutes = Math.floor(timeLeft / 60);

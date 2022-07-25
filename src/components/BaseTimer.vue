@@ -1,6 +1,6 @@
 <template>
-  <div class="base-timer">
-    <svg
+  <div class="q-pa-lg base-timer">
+    <!-- <svg
       class="base-timer__svg"
       viewBox="0 0 100 100"
       xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
           "
         ></path>
       </g>
-    </svg>
+    </svg> -->
     <span class="base-timer__label">{{ formattedTimeLeft }}</span>
   </div>
 </template>

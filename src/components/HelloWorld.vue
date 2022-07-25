@@ -209,7 +209,7 @@ alert("radio selected");
       </q-btn>
     </div> -->
 <!-- <div class="col q-pa-md text-h6 flex text-align: center"> Time Left : {{formatedtimelimit}}</div> -->
-<div class="q-pa-sm" >
+<div class="q-pa-lg" >
   <!-- <b-card-text>
       Question No.{{currentQuestion + 1}} of {{questions.length}}
     </b-card-text> -->
@@ -221,7 +221,7 @@ alert("radio selected");
         >
       <q-card-section v-show="showSimulatedReturnData">
         
-<div  class="q-px-xm flex" style="background-color:white;font-weight:50;padding-left:10px" >Question {{ slide + 1}}</div>
+<div  class="q-px-lg flex" style="background-color:white;font-weight:50;padding-left:10px" >Question {{ slide + 1}}</div>
 <q-carousel
       v-model="slide"
       transition-prev="slide-right"
