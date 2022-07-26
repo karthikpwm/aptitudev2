@@ -3,6 +3,7 @@
     <!-- <q-btn  @click="deletecan()" color="primary" label="delete"/> -->
   </div>
   <div class="q-pa-md">
+  
     <q-table
       title="Candidate Results"
       :rows="rows"
@@ -24,6 +25,16 @@
             {{ props.row.name }}
            
           </q-td>
+          <q-td key="action" :props="props" style="width:131px">
+            <q-checkbox
+            @update:model-value = "chckbox(props.row.candidate_id)"
+        v-model="props.row.neww"
+        color="green"
+        label=""
+        true-value="1"
+        false-value="0"
+      />
+            </q-td>
           <q-td key="totalcorrect" :props="props">
             {{ props.row.totalcorrect }}
             
@@ -63,6 +74,7 @@
         </q-tr>
       </template>
       </q-table>
+      
   </div>
   <div class="q-pa-sm q-gutter-md">
             <q-dialog v-model="promptdialog" persistent>
@@ -92,6 +104,7 @@ import { useUserStore } from '../store/user'
 import { onMounted, ref } from '@vue/runtime-core';
 import { api } from '../boot/axios';
 import { useRouter } from 'vue-router'
+import { stringify } from 'postcss';
 export default {
   setup () {
     const $q = useQuasar()
@@ -102,6 +115,7 @@ export default {
     const password = ref()
     var checkpoint = ref(-1)
     var promptdialog = ref(false)
+    
     var editedItem = ref([ {
         candidate_id: ''
       }])
@@ -142,15 +156,28 @@ api.get(`analytic/getmarks`,
   
   let qw = 0;
   resdata = resdata.map(function (val) {
-         
+      //console.log(val.timepassed)   
      const pp = 1200
+     if(val.selection != 1){
+        if(val.totalcorrect > 6)
+     {
+      val.neww = '1'
+     } 
+     else {
+      val.neww = '0'
+     }
+     }
+     else {
+       val.neww = `${val.selection}`
+     }
+     
     //  if(val.time === 0)
     //  {
     //   val.time =1200
     //  }       
     //  else {
     // val.qw = pp - val.time
-   if(val.timepassed != 0 && val.timepassed != null)
+   if(val.timepassed != 0 && val.timepassed != null && val.timepassed != val.timelimit)
    {
 const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
        const minutes = Math.floor(timeLeft / 60);
@@ -161,15 +188,28 @@ const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
       }
        
       val.timetaken = `${minutes}:${seconds}`;
-   } else {
-    val.timetaken = val.timepassed
+   } 
+   else if(val.timepassed == null || val.timepassed == 0) {
+    val.timetaken = 'Invalid'
+    
+   }
+   else {
+    const timecheck = parseInt(val.timepassed)
+    const minutes = Math.floor(timecheck / 60);
+    let seconds = timecheck % 60;
+
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+     
+      val.timetaken = `${minutes}:${seconds}`;
    }
     
          //console.log('sum',val.timetaken,resdata)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
         rows.value = result
-        //console.log(rows.value)
+        console.log(rows.value)
     //  }
          })
          //console.log(rows.value)
@@ -234,12 +274,17 @@ api.put('user/checkpassword',{password : password.value},{headers: {
       style: 'width: 300px',
       sortable: true
     },
+    {
+          name: "action",
+          label: "Selected",
+          field: "action", align: 'center',headerStyle:'width:100px'
+        },
     { name: 'totalcorrect', align: 'center', label: 'Marks', field: 'totalcorrect', sortable: true },
     { name: 'timetaken', label: 'Duration', field: 'timetaken',align: 'center', sortable: true },
     { name: 'date', label: 'Date', field: 'date',align: 'center', sortable: true },
     { name: 'email', label: 'Email',align: 'center', field: 'email' },
     { name: 'mobile', label: 'Mobile',align: 'center', field: 'mobile' },
-    { name: 'ctc', label: 'Last CTC',align: 'center', field: 'ctc' },
+    { name: 'ctc', label: 'Last Monthly Salary',align: 'center', field: 'ctc' },
     { name: 'position', label: 'Position',align: 'center', field: 'position' },
     { name: 'pincode', label: 'Pincode',align: 'center', field: 'pincode' },
     {
@@ -250,7 +295,7 @@ api.put('user/checkpassword',{password : password.value},{headers: {
   ]
 
   const onRowClick = (item) => {
-    console.log(item)
+    //console.log(item)
     editedItem.value = Object.assign({}, item);
     let windowFeatures = "left=200,top=200,width=920,height=520";
       //let route = router.push('/printcanquestions/'+row.candidate_id,
@@ -283,6 +328,25 @@ api.put('user/checkpassword',{password : password.value},{headers: {
     //console.log(checkpoint.value)
      promptdialog.value = true
    }
+   const chckbox = (item) => {
+    $q.loading.show({
+          message: 'Loading...pls wait..',
+          boxClass: 'text-white',
+          spinnerColor: 'white',
+          spinnerSize: 60
+        })
+    api.put(`/user/selectupdate/${item}`
+    ).then(res => { 
+      console.log(res)
+      getMarks();
+     $q.loading.hide()
+     }
+    ).catch(res => {
+      $q.loading.hide()
+      console.log(res)
+      })
+    //console.log('hai',item)
+   }
   
     return {
       columns,
@@ -293,11 +357,13 @@ api.put('user/checkpassword',{password : password.value},{headers: {
       reidrect,
       setDefaultItem,
       close,
+      chckbox,
       checkpoint,
       password,
       promptdialog,
       rows,
       editedItem,
+      customModel: ref('1'),
        deletecan() {
          //console.log('working')
 

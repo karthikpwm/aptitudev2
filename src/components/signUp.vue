@@ -219,6 +219,7 @@
            <div class="row">
             <q-input v-if="editedItem.usertype === 'admin'" v-model="editedItem.apassword" autogrow label="Access Password" style="width: 200px"></q-input> 
             </div>
+            <div class="row"><q-input v-model="editedItem.credit" style="width: 200px" label="Credit"></q-input></div>
            <!-- <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div> -->
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
            <!-- <div class="row"><q-input disable style="width: 200px" v-model="editedItem.company_id"  label="Company" /></div> -->
@@ -434,7 +435,8 @@ export default {
         company_id: '',
         newpassword:'',
         apassword: '',
-        usertype: ''
+        usertype: '',
+        credit: ''
       }])
   const setDefaultValue = () => {
       signup.value = ref(Object.assign({}, defaultValue)) 

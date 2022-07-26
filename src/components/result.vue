@@ -17,12 +17,16 @@
 </div>
 </template>
 <script>
+import { useRoute, useRouter } from 'vue-router'
 export default {
   setup () {
-    const frontpage = ref(false)
+    
+    // const frontpage = ref(false)
+    
     return {
-      frontpage,
-      lorem: ''
+      // frontpage,
+      lorem: '',
+      
     }
   }
 }

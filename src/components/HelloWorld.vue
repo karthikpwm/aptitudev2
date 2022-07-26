@@ -121,8 +121,8 @@ export default {
   }
 })
         $q.loading.hide()
-  //token.value = ''
-        router.push('/result');
+  token.value = ''
+        router.replace('/result');
 
 })
 .catch(res => {
@@ -210,6 +210,7 @@ alert("radio selected");
     </div> -->
 <!-- <div class="col q-pa-md text-h6 flex text-align: center"> Time Left : {{formatedtimelimit}}</div> -->
 <div class="q-pa-lg" >
+  <div><p>*Clicking the Finish button will end the test. To go to next question press Next</p></div>
   <!-- <b-card-text>
       Question No.{{currentQuestion + 1}} of {{questions.length}}
     </b-card-text> -->
@@ -278,7 +279,7 @@ alert("radio selected");
     <q-btn :disable="!slide" @click="slide--" color="primary" icon="keyboard_double_arrow_left">Previous</q-btn>
     <q-btn :disable="slide==lastvalue" @click="slide++" color="primary" icon-right="keyboard_double_arrow_right">Next</q-btn>
     </div>
-    <div class="q-px-lg flex" style="background-color:white; place-content: flex-end;">
+    <div class="q-pa-xm flex" style="background-color:white; place-content: flex-end;">
   <q-btn label="Finish" @click="submitForm" class="bg-cyan-8 text-grey-1"/>
    <!-- <q-tooltip
           transition-show="rotate"
@@ -290,7 +291,7 @@ alert("radio selected");
 <!-- <div class="q-pa-sm row justify-center" style="background-color:white">
     </div > -->
     
-    <br><br>
+    <!-- <br> -->
     <!-- <div class="q-px-sm mybutton" >
       
       <q-btn label="Finish" @click="submitForm" class="bg-cyan-8 text-grey-1"> <q-tooltip
@@ -313,6 +314,7 @@ alert("radio selected");
     </q-card>
    
 </div>
+
 </template>
 
 <style lang="sass" scoped>
