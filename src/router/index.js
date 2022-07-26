@@ -21,7 +21,7 @@ const routes = [
       { path: "/login", component: () => import("../components/loginform.vue") },
       { path: "/user", component: () => import("../components/userinfo.vue"), meta: { requiresAuth: true } },
       { path: "/guestuser", component: () => import("../components/guestUserDetails.vue"), meta: { requiresAuth: true } },
-      { path: "/result", component: () => import("../components/result.vue"), beforeEnter(to, from, next) { window.location.href = "https://google.com/contact"; }, meta: { requiresAuth: false } },
+      { path: "/result", component: () => import("../components/result.vue"), meta: { requiresAuth: false } },
       { path: "/info", component: () => import("../components/info.vue"), meta: { requiresAuth: true } },
       { path: "/guestinfo", component: () => import("../components/guestInfo.vue"), meta: { requiresAuth: true } },
       { path: "/question", component: () => import("../components/question.vue"), meta: { requiresAuth: true } },
