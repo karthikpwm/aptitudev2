@@ -27,7 +27,7 @@
           </q-td>
           <q-td key="action" :props="props" style="width:131px">
             <q-checkbox
-            @update:model-value = "chckbox(props.row.candidate_id)"
+            @update:model-value = "(val) => {chckbox(props.row.candidate_id, val)}"
         v-model="props.row.neww"
         color="green"
         label=""
@@ -328,23 +328,24 @@ api.put('user/checkpassword',{password : password.value},{headers: {
     //console.log(checkpoint.value)
      promptdialog.value = true
    }
-   const chckbox = (item) => {
-    $q.loading.show({
-          message: 'Loading...pls wait..',
-          boxClass: 'text-white',
-          spinnerColor: 'white',
-          spinnerSize: 60
-        })
-    api.put(`/user/selectupdate/${item}`
-    ).then(res => { 
-      console.log(res)
-      getMarks();
-     $q.loading.hide()
-     }
-    ).catch(res => {
-      $q.loading.hide()
-      console.log(res)
-      })
+   const chckbox = (item,val) => {
+    console.log(val)
+    // $q.loading.show({
+    //       message: 'Loading...pls wait..',
+    //       boxClass: 'text-white',
+    //       spinnerColor: 'white',
+    //       spinnerSize: 60
+    //     })
+    // api.put(`/user/selectupdate/${item}`
+    // ).then(res => { 
+    //   console.log(res)
+    //   getMarks();
+    //  $q.loading.hide()
+    //  }
+    // ).catch(res => {
+    //   $q.loading.hide()
+    //   console.log(res)
+    //   })
     //console.log('hai',item)
    }
   
