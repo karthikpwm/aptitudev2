@@ -329,11 +329,11 @@ alert("radio selected");
     
 </q-carousel>
 <div class="q-px-xm flex flex-center" style="background-color:white">
-    <q-btn :disable="!slide" @click="slide--" color="primary" icon="keyboard_double_arrow_left" size="xs">Previous</q-btn>
-    <q-btn :disable="slide==lastvalue" @click="slide++" color="primary" icon-right="keyboard_double_arrow_right" size="xs">Next</q-btn>
+    <q-btn :disable="!slide" @click="slide--" color="primary" icon="keyboard_double_arrow_left" size="sm">Previous</q-btn>
+    <q-btn :disable="slide==lastvalue" @click="slide++" color="primary" icon-right="keyboard_double_arrow_right" size="sm">Next</q-btn>
     </div>
     <div class="q-pa-xm flex" style="background-color:white; place-content: flex-end;">
-  <q-btn size="xs" label="Finish" @click="submitForm" class="bg-cyan-8 text-grey-1"/>
+  <q-btn size="sm" label="Finish" @click="submitForm" class="bg-cyan-8 text-grey-1"/>
    <!-- <q-tooltip
           transition-show="rotate"
           transition-hide="rotate"

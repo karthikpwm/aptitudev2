@@ -221,7 +221,7 @@ import router from '../router';
        console.log(answrb,answrc,answrd)
        let question = "A boat can travel with the speed of "+boatspeed +" km/hr in still water if the speed of stream is "+ streamspeed +"km/hr, find the time taken by the boat to go "+distance +" km downstream?"
        console.log(time)
-       question = JSON.stringify(question)
+      //  question = JSON.stringify(question)
        let options = [answrb,answrc,time,answrd]
       
        options = shuffle(options)
@@ -284,7 +284,7 @@ import router from '../router';
       //console.log(question2)
       let options = [total,optinb,optinc,"none of these"]
       
-     question= JSON.stringify(question)
+    //  question= JSON.stringify(question)
   options = shuffle(options)
   var answer = options.findIndex(function(find) {
   return find == total
@@ -310,7 +310,7 @@ console.log(JSON.stringify(options));
       let optinc = startingValue
       let optind = startingValue + 16
       let options = [digit6,optinb,optinc,optind]
-      question= JSON.stringify(question)
+      // question= JSON.stringify(question)
       options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
@@ -331,7 +331,7 @@ console.log(JSON.stringify(options));
       let optionc = (avgLast * 0.9).toFixed(2)
       let options = [avgLast,optionb,optionc,"None of these"]
       console.log(avgLast)
-      question= JSON.stringify(question)
+      //question= JSON.stringify(question)
       options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
@@ -399,7 +399,7 @@ console.log(JSON.stringify(options));
       let question = "If Rose is coded as  "+rose +", Chair is coded as " +chair +", Preach is coded as " +preach +", what will be the code for Search?"
       let options = [search,"76588","754562","35465"]
       console.log(search)
-      question= JSON.stringify(question)
+      // question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == search
@@ -421,7 +421,7 @@ console.log(JSON.stringify(options));
      optionc = optionc.toFixed(2)
      console.log(time)
      let options = [time,optionb,optionc,"None of these"]
-     question= JSON.stringify(question)
+    //  question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == time
@@ -442,7 +442,7 @@ console.log(JSON.stringify(options));
      let optiond = totalNumber + 100
      let options = [optionb,totalNumber,optionc,optiond]
      console.log(totalNumber)
-     question= JSON.stringify(question)
+    //  question= JSON.stringify(question)
      options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
@@ -465,7 +465,7 @@ console.log(JSON.stringify(options));
      let optiond = newRatio + 4
      let options = [optionb,optionc,newRatio,optiond]
      console.log(newRatio)
-     question= JSON.stringify(question)
+     //question= JSON.stringify(question)
      options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
@@ -489,7 +489,7 @@ console.log(JSON.stringify(options));
       optiond = optiond.toFixed(2)
       let options = [optionb,ram,optionc,optiond]
       console.log(ram)
-      question= JSON.stringify(question)
+      //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == ram
@@ -510,7 +510,7 @@ console.log(JSON.stringify(options));
       let optionc = (currentprice * 0.9).toFixed(2)
       let options = [currentprice,optionb,optionc,"None of these"]
       console.log(currentprice)
-      question= JSON.stringify(question)
+      //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == currentprice
@@ -532,7 +532,7 @@ console.log(JSON.stringify(options));
          optionc = optionc.toFixed(2)
          let options = [speed,optionb,optionc,"None of these"]
          console.log(speed)
-      question= JSON.stringify(question)
+      //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == speed
@@ -552,7 +552,7 @@ console.log(JSON.stringify(options));
          let optionc = (original * 0.9).toFixed(2)
          let options = [optionc,optionb,original,"None of these"]
          console.log(original)
-      question= JSON.stringify(question)
+      //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == original
@@ -571,7 +571,7 @@ console.log(JSON.stringify(options));
          let optionc = (percent * 0.9).toFixed(2)
          let options = [percent,optionb,optionc,"None of these"]
          console.log(percent)
-      question= JSON.stringify(question)
+      //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == percent
