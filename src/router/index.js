@@ -37,6 +37,7 @@ const routes = [
       { path: "/register", component: () => import("../components/register.vue") },
       { path: "/errorpage", component: () => import("../components/errorPageNotFound.vue") },
       { path: "/printcanquestions/:id", component: () => import("../components/printcandidatequestions.vue") },
+      { path: "/printcanquestionstwo/:id", component: () => import("../components/printcandidatequestionstwo.vue") },
       { path: "/token/test/:token", component: () => import("../components/token.vue"), meta: { disableBack: true } },
       { path: '/:pathMatch(.*)*', redirect: '/login' },
 

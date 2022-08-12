@@ -30,6 +30,8 @@ export const useUserStore = defineStore("user", () => {
     const company_id = ref('')
     const category_id = ref('')
     const category1_id = ref('')
+    const type = ref('')
+    const uniquedate = ref('')
     //console.log("userstore", token, loggedinname)
     const insertUser = async (user) => {
         await api.post(`analytic/questions`, { user })
@@ -38,6 +40,25 @@ export const useUserStore = defineStore("user", () => {
 
     const getQuestion = async (testlog_id, candidate_id) => {
         await api.post(`analytic/questions`, { testlog_id, candidate_id },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token.value
+                }
+            })
+            .then(async res => {
+                const data = res.data
+                let userAnswer = {}
+                questions.value = await data.data.map(x => {
+                    userAnswer[x.question_id] = null
+                    x.options = JSON.parse(x.options)
+                    return x;
+
+                })
+                userAnswers.value = userAnswer
+            })
+    }
+    const getCustomQuestion = async (testlog_id, candidate_id) => {
+        await api.post(`analytic/customquestions`, { testlog_id, candidate_id },
             {
                 headers: {
                     Authorization: 'Bearer ' + token.value
@@ -70,7 +91,10 @@ export const useUserStore = defineStore("user", () => {
         company_id,
         category_id,
         category1_id,
+        type,
+        uniquedate,
         getQuestion,
-        insertUser
+        insertUser,
+        getCustomQuestion
     }
 })

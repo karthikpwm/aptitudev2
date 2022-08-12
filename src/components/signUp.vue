@@ -219,7 +219,7 @@
            <div class="row">
             <q-input v-if="editedItem.usertype === 'admin'" v-model="editedItem.apassword" autogrow label="Access Password" style="width: 200px"></q-input> 
             </div>
-            <div class="row"><q-input v-model="editedItem.credit" style="width: 200px" label="Credit"></q-input></div>
+            <!-- <div class="row"><q-input v-model="editedItem.credit" style="width: 200px" label="Credit"></q-input></div> -->
            <!-- <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div> -->
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
            <!-- <div class="row"><q-input disable style="width: 200px" v-model="editedItem.company_id"  label="Company" /></div> -->
@@ -242,6 +242,23 @@
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancel" v-close-popup @click="close()" />
           <q-btn flat label="Enter" v-close-popup  @click="deletecheck()"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog
+      v-model="small"
+    >
+      <q-card style="width: 300px">
+        <q-card-section>
+          <div class="text-h6">Enter Credit</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <div class="row"><q-input v-model="editedItem.credit" type="number" style="width: 200px" label="Credit"></q-input></div>
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="Save" v-close-popup @click="savecredit()" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -283,6 +300,7 @@
           <q-td key="actions" :props="props" style="width:131px">
               <q-btn text-color="blue"  icon="edit"  @click="editItem(props.row)" flat round dense></q-btn>
               <q-btn v-if="deltrights" text-color="red" icon="delete_forever" :disable="!deltrights || props.row.usertype === 'admin'"  @click="deleteItem(props.row)" flat round dense></q-btn>
+              <q-btn v-if="deltrights" color="green"  @click="editcredit(props.row)" size="xs"><strong>Add <br>credit</strong></q-btn>
             </q-td>
           <!-- <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
@@ -410,6 +428,7 @@ export default {
     const show_dialog = ref(false)
     const createcompany = ref()
     var promptdialog = ref(false)
+    var small = ref(false)
     const signup = ref({
       email: '',
     username: '',
@@ -472,6 +491,16 @@ export default {
        
       show_dialog.value = true
       //console.log(editedItem )
+}
+const editcredit = (item) => {
+  editedItem.value = Object.assign({}, item);
+  small.value = true
+}
+const savecredit = ()=> {
+  api.put(`user/editcredit/${editedItem.value.company_id}`,{credit : editedItem.value.credit}).then( (res) => {
+    getUserDetails();
+  }
+  )
 }
 const deleteItem = (item) => {
   editedItem.value = Object.assign({}, item);
@@ -663,6 +692,7 @@ api.put('user/checkpassword',{password : password.value},
       deltrights,
       defaultValue,
       setDefaultValue,
+      savecredit,
       password,
       // compdefault,
       setcompdefault,
@@ -670,6 +700,7 @@ api.put('user/checkpassword',{password : password.value},
       reidrect,
       show_dialog,
       promptdialog,
+      small,
       editItem,
       addRow,
       editedItem,
@@ -677,6 +708,7 @@ api.put('user/checkpassword',{password : password.value},
       deleteItem,
       getcompdetails,
       deletecheck,
+      editcredit,
       allcompdet,
       companyoptions: [
         {

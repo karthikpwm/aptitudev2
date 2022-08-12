@@ -31,7 +31,7 @@ export default {
       return String.fromCharCode(number+65)
     }
 
-    const {  questions, userAnswers,token } = storeToRefs(store);
+    const {  questions, userAnswers,token,type,uniquedate } = storeToRefs(store);
     const {  testlog_id , candidate_id,timelimit} = storeToRefs(candidatestore);
     const slideOption = ref([])
     const slide = ref(0)
@@ -42,7 +42,12 @@ export default {
     onMounted( async () => {
         //$q.loading.show()
       // timelimit.value = timelimit.value
-      await store.getQuestion(testlog_id.value,candidate_id.value)
+      if(type.value == 1) {
+         await store.getCustomQuestion(testlog_id.value,candidate_id.value,uniquedate.value)
+      } else {
+        await store.getQuestion(testlog_id.value,candidate_id.value)
+      }
+      
       let i = 0;
 //       questions.value.sort(function (x, y) {
 //     return x.question_id - y.question_id;
@@ -113,16 +118,40 @@ export default {
   headers: {
     Authorization: 'Bearer ' + token.value
   }
-}).then(res => {
-  api.post(`analytic/getcandidateqstnmarks`,{candidate_id : candidate_id.value}, 
+}).then(async(res) => {
+  if(type.value == 1) {
+    await api.post(`analytic/getcustomcandidateqstnmarks`,{candidate_id : candidate_id.value}, 
   {
   headers: {
     Authorization: 'Bearer ' + token.value
   }
+}).then( async(res) => {
+  console.log(res.data)
+  const canddetails = res.data.data
+  await api.put(`analytic/insertresult`,{ details: canddetails, type: type.value}).catch(err => {
+    console.log(err)
+  })
+})
+        $q.loading.hide()
+        token.value = ''
+        router.replace('/result');
+  } else {
+       await api.post(`analytic/getcandidateqstnmarks`,{candidate_id : candidate_id.value}, 
+  {
+  headers: {
+    Authorization: 'Bearer ' + token.value
+  }
+}).then( async (res) => {
+   console.log(res.data)
+  const canddetails = res.data.data
+  await api.put(`analytic/insertresult`,{ details: canddetails, type: type.value}).catch(err => {
+    console.log(err)
+  })
 })
         $q.loading.hide()
   token.value = ''
         router.replace('/result');
+  }
 
 })
 .catch(res => {

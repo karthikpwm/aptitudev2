@@ -27,7 +27,7 @@
           </q-td>
           <q-td key="action" :props="props" style="width:131px">
             <q-checkbox
-            @update:model-value = "(val) => {chckbox(props.row.candidate_id, val)}"
+            @update:model-value = "chckbox(props.row.candidate_id)"
         v-model="props.row.neww"
         color="green"
         label=""
@@ -35,8 +35,8 @@
         false-value="0"
       />
             </q-td>
-          <q-td key="totalcorrect" :props="props">
-            {{ props.row.totalcorrect }}
+          <q-td key="marks" :props="props">
+            {{ props.row.marks }}
             
           </q-td>
           <q-td key="timetaken" :props="props">
@@ -55,8 +55,8 @@
             {{ props.row.mobile }}
            
           </q-td>
-          <q-td key="ctc" :props="props">
-            {{ props.row.ctc }}
+          <q-td key="lastctc" :props="props">
+            {{ props.row.lastctc }}
            
           </q-td>
           <q-td key="position" :props="props">
@@ -70,6 +70,7 @@
           <q-td key="actions" :props="props" style="width:131px">
           <q-btn text-color="green" text="Print" icon="print"  @click="onRowClick(props.row)" flat round dense></q-btn>
               <q-btn text-color="red" icon="delete_forever"  @click="deleteItem(props.row)" flat round dense></q-btn>
+              <q-btn type="a" text-color="blue" icon="file_download"  @click="download(props.row)" flat round dense></q-btn>
             </q-td>
         </q-tr>
       </template>
@@ -104,7 +105,8 @@ import { useUserStore } from '../store/user'
 import { onMounted, ref } from '@vue/runtime-core';
 import { api } from '../boot/axios';
 import { useRouter } from 'vue-router'
-import { stringify } from 'postcss';
+// import filedownload from 'js-file-download'
+// import { stringify } from 'postcss';
 export default {
   setup () {
     const $q = useQuasar()
@@ -159,7 +161,7 @@ api.get(`analytic/getmarks`,
       //console.log(val.timepassed)   
      const pp = 1200
      if(val.selection != 1){
-        if(val.totalcorrect > 6)
+        if(val.marks > 6)
      {
       val.neww = '1'
      } 
@@ -209,10 +211,10 @@ const timeLeft = parseInt(val.timelimit) - parseInt(val.timepassed)
          var result = resdata.filter(obj=> obj.company_id == admin.value.company_id);
  //console.log(result);
         rows.value = result
-        console.log(rows.value)
+        //console.log(rows.value)
     //  }
          })
-         //console.log(rows.value)
+         console.log(rows.value)
     //rows.value = resdata
 }).catch( (res)=> {
 $q.loading.hide()
@@ -225,6 +227,41 @@ $q.loading.hide()
     //console.log(checkpoint.value)
   editedItem.value = Object.assign({}, item);
  // const index = data.indexOf(item);
+
+}
+const download = (item)=> {
+ console.log(item.candidate_id)
+ let filename 
+ api.put('user/getcv',{candidate_id : item.candidate_id}).then((res)=> {
+  console.log(res.data.data)
+  let response = res.data.data
+  filename = response[0].cv
+  console.log(response[0].cv)
+  let url = `user/downloadfile/${filename}`
+let label = filename
+ const responsefile =  api.post(url).then((res) => {
+  
+   const linkSource = `data:application/pdf;base64,${res.data}`;
+      const downloadLink = document.createElement("a");
+      downloadLink.href = linkSource;
+      downloadLink.download = filename;
+      downloadLink.click();
+//  const url = window.URL.createObjectURL(new Blob([res.data]));
+//           const link = document.createElement('a');
+//           link.href = url;
+//           if (typeof window.navigator.msSaveBlob === 'function') {
+//               window.navigator.msSaveBlob(
+//                   res.data,
+//                   filename
+//               );
+//           } else {
+//               link.setAttribute('download', filename);
+//               document.body.appendChild(link);
+//               link.click();
+//           }
+ })
+      
+ })
 
 }
 
@@ -279,12 +316,12 @@ api.put('user/checkpassword',{password : password.value},{headers: {
           label: "Selected",
           field: "action", align: 'center',headerStyle:'width:100px'
         },
-    { name: 'totalcorrect', align: 'center', label: 'Marks', field: 'totalcorrect', sortable: true },
+    { name: 'marks', align: 'center', label: 'Marks', field: 'marks', sortable: true },
     { name: 'timetaken', label: 'Duration', field: 'timetaken',align: 'center', sortable: true },
     { name: 'date', label: 'Date', field: 'date',align: 'center', sortable: true },
     { name: 'email', label: 'Email',align: 'center', field: 'email' },
     { name: 'mobile', label: 'Mobile',align: 'center', field: 'mobile' },
-    { name: 'ctc', label: 'Last Monthly Salary',align: 'center', field: 'ctc' },
+    { name: 'lastctc', label: 'Last Monthly Salary',align: 'center', field: 'lastctc' },
     { name: 'position', label: 'Position',align: 'center', field: 'position' },
     { name: 'pincode', label: 'Pincode',align: 'center', field: 'pincode' },
     {
@@ -295,11 +332,21 @@ api.put('user/checkpassword',{password : password.value},{headers: {
   ]
 
   const onRowClick = (item) => {
-    //console.log(item)
+    console.log(item.type)
     editedItem.value = Object.assign({}, item);
     let windowFeatures = "left=200,top=200,width=920,height=520";
       //let route = router.push('/printcanquestions/'+row.candidate_id,
-      let route = router.resolve({ path: '/printcanquestions/'+editedItem.value.candidate_id,
+      if(item.type == 1) {
+      let route = router.resolve({ path: '/printcanquestionstwo/'+editedItem.value.candidate_id,
+       
+  headers: {
+    Authorization: 'Bearer ' + token.value
+  }
+})
+      //console.log(windowFeatures,'kkk')
+      window.open(route.href, "mozillaWindow", windowFeatures);
+      } else {
+           let route = router.resolve({ path: '/printcanquestions/'+editedItem.value.candidate_id,
        
   headers: {
     Authorization: 'Bearer ' + token.value
@@ -314,6 +361,8 @@ api.put('user/checkpassword',{password : password.value},{headers: {
 //     Authorization: 'Bearer ' + token.value
 //   }
 // })
+      }
+     
 
   }
   const setDefaultItem = () => {
@@ -328,8 +377,7 @@ api.put('user/checkpassword',{password : password.value},{headers: {
     //console.log(checkpoint.value)
      promptdialog.value = true
    }
-   const chckbox = (item,val) => {
-    console.log(val)
+   const chckbox = (item) => {
     // $q.loading.show({
     //       message: 'Loading...pls wait..',
     //       boxClass: 'text-white',
@@ -357,6 +405,7 @@ api.put('user/checkpassword',{password : password.value},{headers: {
       deletecheck,
       reidrect,
       setDefaultItem,
+      download,
       close,
       chckbox,
       checkpoint,

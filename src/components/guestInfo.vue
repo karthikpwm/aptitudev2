@@ -14,9 +14,9 @@ export default {
   // const form = ref(null);
     const store = useUserStore()
     const store_candiate = useCandidateStore()
-    const { token} = storeToRefs( store )
-    const { candidate_id,testlog_id, company1_id,category1_id } = storeToRefs( store_candiate )
-    //console.log(token)
+    const { token,type,uniquedate} = storeToRefs( store )
+    const { candidate_id,testlog_id, company1_id,category1_id} = storeToRefs( store_candiate )
+    console.log(type.value)
     const start = () => {
        $q.loading.show({
           message: 'Loading...pls wait..',
@@ -24,7 +24,24 @@ export default {
           spinnerColor: 'white',
           spinnerSize: 60
         })
-        api.post(`analytic/start_test`, {candidate_id : candidate_id.value,company_id : company1_id.value,category_id: category1_id.value},
+        if(type.value == 1) {
+          api.post('analytic/start_test2',{candidate_id : candidate_id.value,company_id : company1_id.value,uniquedate : uniquedate.value},
+          {
+             headers: {
+    Authorization: 'Bearer ' + token.value
+  }
+          }).then(res => {
+  testlog_id.value = res.data.testlog_id
+ $q.loading.hide()
+              router.push('/home');
+
+})
+.catch(res => {
+  alert(res.response.data.message || 'server not found')
+})
+        }
+        else  {
+           api.post(`analytic/start_test`, {candidate_id : candidate_id.value,company_id : company1_id.value,category_id: category1_id.value},
         {
   headers: {
     Authorization: 'Bearer ' + token.value
@@ -38,11 +55,13 @@ export default {
 .catch(res => {
   alert(res.response.data.message || 'server not found')
 })
+        }
+       
       
     }
     return {
       start,
-      lorem: 'You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Kindly attend the test on a PC or Laptop only not your mobile phone. Click start test to begin your aptitude test. All the best.'
+      lorem: 'You have 15 minutes for attending 10 aptitude questions. Kindly have a calculator, paper and pencil ready. You may skip a question in case you do not know the correct answer. Click start test to begin your aptitude test. All the best.'
     }
   },
 }

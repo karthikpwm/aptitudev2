@@ -7,9 +7,10 @@ export const useCandidateStore = defineStore("candidate", () => {
     const company_id = ref(null)
     const company1_id = ref(null)
     const testlog_id = ref(null)
-    const category_id =ref(null)
-    const category1_id =ref(null)
-    const timelimit =ref(null)
+    const category_id = ref(null)
+    const category1_id = ref(null)
+    const timelimit = ref(null)
+    const type = ref(null)
     return {
         company_id,
         company1_id,
@@ -17,6 +18,7 @@ export const useCandidateStore = defineStore("candidate", () => {
         testlog_id,
         category_id,
         category1_id,
-        timelimit
+        timelimit,
+        type
     }
 })
