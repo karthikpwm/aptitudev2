@@ -22,6 +22,7 @@ const routes = [
       { path: "/user", component: () => import("../components/userinfo.vue"), meta: { requiresAuth: true } },
       { path: "/guestuser", component: () => import("../components/guestUserDetails.vue"), meta: { requiresAuth: true, disableBack: true } },
       { path: "/result", component: () => import("../components/result.vue"), meta: { requiresAuth: false, disableBack: true } },
+      { path: "/resulttwo", component: () => import("../components/resulttwo.vue"), meta: { requiresAuth: false, disableBack: true } },
       { path: "/info", component: () => import("../components/info.vue"), meta: { requiresAuth: true } },
       { path: "/guestinfo", component: () => import("../components/guestInfo.vue"), meta: { requiresAuth: true, disableBack: true } },
       { path: "/question", component: () => import("../components/question.vue"), meta: { requiresAuth: true } },
