@@ -21,6 +21,7 @@ export default {
       return 'gdfgf'
     }
     const refBaseTimer = ref(null)
+    const markscored = ref(0)
     // const timelimit = ref();
     let timePassed = ref(0);
     const submitResult = ref([])
@@ -128,13 +129,24 @@ export default {
 }).then( async(res) => {
   console.log(res.data)
   const canddetails = res.data.data
+  canddetails.map((val) => {
+     console.log(val.totalcorrect)
+     markscored.value = val.totalcorrect
+  })
   await api.put(`analytic/insertresult`,{ details: canddetails, type: type.value}).catch(err => {
     console.log(err)
   })
 })
+      if(markscored.value > 6){
         $q.loading.hide()
         token.value = ''
+        router.replace('/resulttwo');
+      } else {
+         $q.loading.hide()
+        token.value = ''
         router.replace('/result');
+      }  
+        
   } else {
        await api.post(`analytic/getcandidateqstnmarks`,{candidate_id : candidate_id.value}, 
   {
@@ -144,13 +156,24 @@ export default {
 }).then( async (res) => {
    console.log(res.data)
   const canddetails = res.data.data
+  canddetails.map((val) => {
+     console.log(val.totalcorrect)
+     markscored.value = val.totalcorrect
+  })
   await api.put(`analytic/insertresult`,{ details: canddetails, type: type.value}).catch(err => {
     console.log(err)
   })
 })
-        $q.loading.hide()
-  token.value = ''
+        if(markscored.value > 6){
+       $q.loading.hide()
+        token.value = ''
+        router.replace('/resulttwo');
+
+      } else {
+         $q.loading.hide()
+        token.value = ''
         router.replace('/result');
+      } 
   }
 
 })
@@ -178,6 +201,7 @@ export default {
       lastvalue,
       next,
       visible,
+      markscored,
       showSimulatedReturnData,
         onSubmit (evt) {
         const formData = new FormData(evt.target)
@@ -305,11 +329,11 @@ alert("radio selected");
     
 </q-carousel>
 <div class="q-px-xm flex flex-center" style="background-color:white">
-    <q-btn :disable="!slide" @click="slide--" color="primary" icon="keyboard_double_arrow_left">Previous</q-btn>
-    <q-btn :disable="slide==lastvalue" @click="slide++" color="primary" icon-right="keyboard_double_arrow_right">Next</q-btn>
+    <q-btn :disable="!slide" @click="slide--" color="primary" icon="keyboard_double_arrow_left" size="xs">Previous</q-btn>
+    <q-btn :disable="slide==lastvalue" @click="slide++" color="primary" icon-right="keyboard_double_arrow_right" size="xs">Next</q-btn>
     </div>
     <div class="q-pa-xm flex" style="background-color:white; place-content: flex-end;">
-  <q-btn label="Finish" @click="submitForm" class="bg-cyan-8 text-grey-1"/>
+  <q-btn size="xs" label="Finish" @click="submitForm" class="bg-cyan-8 text-grey-1"/>
    <!-- <q-tooltip
           transition-show="rotate"
           transition-hide="rotate"
