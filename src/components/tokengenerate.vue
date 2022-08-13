@@ -153,11 +153,20 @@ import router from '../router';
       const credit = ref()
       const mask="YYYY-MM-DD HH:mm"
       
+    
       // date-fsn
       //console.log('compid',company_id.value)
       //console.log('orgnltoken',company_id)
-      const getCategories = () => {
+      const setDefaultItem = () => {
         
+      generatetoken.value = ''
+      category.value= []
+      timelimit.value = []
+      
+      
+     }
+      const getCategories = () => {
+        setDefaultItem();
         $q.loading.show({
           message: 'Loading...pls wait..',
           boxClass: 'text-white',
@@ -218,9 +227,9 @@ import router from '../router';
       answrb= answrb.toFixed(2)
       answrc = answrc.toFixed(2)
       answrd = answrd.toFixed(2)
-       console.log(answrb,answrc,answrd)
+       //console.log(answrb,answrc,answrd)
        let question = "A boat can travel with the speed of "+boatspeed +" km/hr in still water if the speed of stream is "+ streamspeed +"km/hr, find the time taken by the boat to go "+distance +" km downstream?"
-       console.log(time)
+       //console.log(time)
       //  question = JSON.stringify(question)
        let options = [answrb,answrc,time,answrd]
       
@@ -228,7 +237,7 @@ import router from '../router';
         var answer = options.findIndex(function(find) {
        return find == time
        });
-       console.log(options)
+       //console.log(options)
        options = JSON.stringify(options)
       let newquestion1 = {question,options,answer}
       let newquestion2 = questionTwo();
@@ -262,7 +271,7 @@ import router from '../router';
       // let example = questions.map((x) => {
         
       //  })
-       console.log(questions)
+       //console.log(questions)
       //  let currentdate = moment().format('YYYY-MM-DD HH:mm:ss')
       //  console.log(currentdate)
        var bcd = Date.parse(date1.value)
@@ -276,7 +285,7 @@ import router from '../router';
       let dozens = getaptitude(5, 20);
       let total = (cost / mangoes) * (dozens) * 12
       total = total.toFixed(2)
-      console.log(total)
+      //console.log(total)
       let optinb = (total * 0.9).toFixed(2)
       let optinc = (total * 1.1).toFixed(2)
       //console.log("no.of mango " +mangoes,"cost "+cost,"dozen" +dozens,total.toFixed(2))
@@ -289,10 +298,10 @@ import router from '../router';
   var answer = options.findIndex(function(find) {
   return find == total
 }); 
-console.log(answer)
+//console.log(answer)
  options = JSON.stringify(options);
 
-console.log(JSON.stringify(options));
+//console.log(JSON.stringify(options));
       
       return {question,options,answer}
     }
@@ -304,7 +313,7 @@ console.log(JSON.stringify(options));
       let digit4 = startingValue + 10
       let digit5 = startingValue + 2
       let digit6 = startingValue + 18
-      console.log(typeof(startingValue))
+      //console.log(typeof(startingValue))
       let question =  +startingValue +", " + digit1+", "+digit2 +" , "+digit3 + " , "+digit4 +" ,"+digit5 +", x   -  What is the X value ?"
       let optinb = digit2
       let optinc = startingValue
@@ -316,97 +325,97 @@ console.log(JSON.stringify(options));
       var answer = options.findIndex(function(find) {
       return find == digit6
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-      console.log(options)
+      //console.log(options)
       return {question,options,answer}
     }
     const questionFour = () => {
-      let avgScore = getaptitude(20,50)
-      let avgSix = getaptitude(20,50)
+      let avgScore = getaptitude(30,50)
+      let avgSix = getaptitude(10,30)
       let avgLast = ((avgScore * 10) - (avgSix * 6))/4
       //console.log("avg score:",avgScore,"avgsix ", avgSix, "avglast ", avgLast)
       let question = "The average score of v kohli in a series of 10 matches is "+avgScore +" runs, if the average off first 6 matches comes out to be "+ avgSix+" what is his average in the 4 matches?"
       let optionb = (avgLast * 1.1).toFixed(2)
       let optionc = (avgLast * 0.9).toFixed(2)
       let options = [avgLast,optionb,optionc,"None of these"]
-      console.log(avgLast)
+      //console.log(avgLast)
       //question= JSON.stringify(question)
       options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == avgLast
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-      console.log(options)
+      //console.log(options)
       return {question,options,answer}
     }
     const questionFive = ()=> {
-      let r = generateRandom(1,10)
-      let o = generateRandom(1,10)
-      let s = generateRandom(1,10)
-      let e = generateRandom(1,10)
-      let c = generateRandom(1,10)
-      let h = generateRandom(1,10)
-      let a = generateRandom(1,10)
-      let i = generateRandom(1,10)
-      let p = generateRandom(1,10)
-      if(o === r){
-         o = generateRandom(1,10)
-        console.log('repeat',o)
-      }
+      let r = generateRandom(1,2)
+      let o = generateRandom(3,4)
+      let s = generateRandom(5,6)
+      let e = generateRandom(7,8)
+      let c = generateRandom(9,10)
+      let h = generateRandom(11,12)
+      let a = generateRandom(13,14)
+      let i = generateRandom(15,16)
+      let p = generateRandom(17,18)
+      // if(o === r){
+      //    o = generateRandom(1,10)
+        
+      // }
       
-      else if(s === o || s === r){
-         s = generateRandom(1,10)
-        console.log('repeat',o)
-      }
+      // else if(s === o || s === r){
+      //    s = generateRandom(1,10)
+        
+      // }
       
-      else if(e === s || e === o || e === r){
-         e = generateRandom(1,10)
-        console.log('repeat',e)
-      }
+      // else if(e === s || e === o || e === r){
+      //    e = generateRandom(1,10)
+        
+      // }
       
-      else if(c === e || c === s || c === e || c === o || c === r){
-         c = generateRandom(1,10)
-        console.log('repeat',c)
-      }
+      // else if(c === e || c === s || c === e || c === o || c === r){
+      //    c = generateRandom(1,10)
+        
+      // }
       
-      else if(h === c || h === e || h === s || h === e || h === o || h === r){
-         h = generateRandom(1,10)
-        console.log('repeat',h)
-      }
+      // else if(h === c || h === e || h === s || h === e || h === o || h === r){
+      //    h = generateRandom(1,10)
+       
+      // }
       
-      else if(a === h || a === c || a === e || a === s || a === e || a === o || a === r){
-         a = generateRandom(1,10)
-        console.log('repeat',a)
-      }
+      // else if(a === h || a === c || a === e || a === s || a === e || a === o || a === r){
+      //    a = generateRandom(1,10)
+        
+      // }
       
-      else if(i === a || i === h || i === c || i === e || i === s || i === e || i === o || i === r){
-         i = generateRandom(1,10)
-        console.log('repeat',i)
-      }
+      // else if(i === a || i === h || i === c || i === e || i === s || i === e || i === o || i === r){
+      //    i = generateRandom(1,10)
+       
+      // }
       
-      else if(p === i || p === a || p === h || p === c || p === e || p === s || p === e || p === o && p === r){
-         p = generateRandom(1,10)
-        console.log('repeat',p)
-      }
-      let rose = r.toString()+o.toString()+s.toString()+e.toString()
-      let preach = p.toString()+r.toString()+e.toString()+a.toString()+c.toString()+h.toString()
-      let chair = c.toString()+h.toString()+a.toString()+i.toString()+r.toString()
-      let search = s.toString()+e.toString()+a.toString()+r.toString()+c.toString()+h.toString()
+      // else if(p === i || p === a || p === h || p === c || p === e || p === s || p === e || p === o && p === r){
+      //    p = generateRandom(1,10)
+        
+      // }
+      let rose = r.toString()+','+o.toString()+','+s.toString()+','+e.toString()
+      let preach = p.toString()+','+r.toString()+','+e.toString()+','+a.toString()+','+c.toString()+','+h.toString()
+      let chair = c.toString()+','+h.toString()+','+a.toString()+','+i.toString()+','+r.toString()
+      let search = s.toString()+','+e.toString()+','+a.toString()+','+r.toString()+','+c.toString()+','+h.toString()
       //console.log(rose,preach,chair,search)
       let question = "If Rose is coded as  "+rose +", Chair is coded as " +chair +", Preach is coded as " +preach +", what will be the code for Search?"
-      let options = [search,"76588","754562","35465"]
-      console.log(search)
+      let options = [search,"7,16,5,8,18","17,5,4,5,6,12","3,5,14,6,15"]
+      //console.log(search)
       // question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == search
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
     }
     const questionSix =()=> {
@@ -419,16 +428,16 @@ console.log(JSON.stringify(options));
      let optionc = time * 0.9
      optionb = optionb.toFixed(2)
      optionc = optionc.toFixed(2)
-     console.log(time)
+     //console.log(time)
      let options = [time,optionb,optionc,"None of these"]
     //  question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == time
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
     }
     const questionSeven = () => {
@@ -441,16 +450,16 @@ console.log(JSON.stringify(options));
      let optionc = totalNumber + 100
      let optiond = totalNumber + 100
      let options = [optionb,totalNumber,optionc,optiond]
-     console.log(totalNumber)
+     //console.log(totalNumber)
     //  question= JSON.stringify(question)
      options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == totalNumber
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-      console.log(options)
+      //console.log(options)
       return {question,options,answer}
     }
     const questionEight = ()=> {
@@ -464,16 +473,16 @@ console.log(JSON.stringify(options));
      let optionc = newRatio + 3
      let optiond = newRatio + 4
      let options = [optionb,optionc,newRatio,optiond]
-     console.log(newRatio)
+     //console.log(newRatio)
      //question= JSON.stringify(question)
      options = options.map(String)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == newRatio
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+      // console.log(options)
       return {question,options,answer}
     }
     const questionNine = ()=> {
@@ -488,15 +497,15 @@ console.log(JSON.stringify(options));
       optionc = optionc.toFixed(2)
       optiond = optiond.toFixed(2)
       let options = [optionb,ram,optionc,optiond]
-      console.log(ram)
+      //console.log(ram)
       //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == ram
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
     }
     const questionTen = () => {
@@ -509,15 +518,15 @@ console.log(JSON.stringify(options));
       let optionb = (currentprice * 1.1).toFixed(2)
       let optionc = (currentprice * 0.9).toFixed(2)
       let options = [currentprice,optionb,optionc,"None of these"]
-      console.log(currentprice)
+      //console.log(currentprice)
       //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == currentprice
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
     }
       const questionEleven = ()=> {
@@ -531,15 +540,15 @@ console.log(JSON.stringify(options));
          optionb = optionb.toFixed(2)
          optionc = optionc.toFixed(2)
          let options = [speed,optionb,optionc,"None of these"]
-         console.log(speed)
+         //console.log(speed)
       //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == speed
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
 
       }
@@ -551,15 +560,15 @@ console.log(JSON.stringify(options));
         let optionb = (original * 1.1).toFixed(2)
          let optionc = (original * 0.9).toFixed(2)
          let options = [optionc,optionb,original,"None of these"]
-         console.log(original)
+         //console.log(original)
       //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == original
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
        }
        const questionThirteen = ()=> {
@@ -570,15 +579,15 @@ console.log(JSON.stringify(options));
         let optionb = (percent * 1.1).toFixed(2)
          let optionc = (percent * 0.9).toFixed(2)
          let options = [percent,optionb,optionc,"None of these"]
-         console.log(percent)
+         //console.log(percent)
       //question= JSON.stringify(question)
       options = shuffle(options)
       var answer = options.findIndex(function(find) {
       return find == percent
       }); 
-      console.log(answer)
+      //console.log(answer)
       options = JSON.stringify(options);
-       console.log(options)
+       //console.log(options)
       return {question,options,answer}
        }
        function shuffle(array) {
@@ -647,7 +656,7 @@ console.log(JSON.stringify(options));
         .then(async (res) => {
           $q.loading.hide()
         generatetoken.value ="https://aptitudetestv2.herokuapp.com/token/test/" + res.data.token 
-        getCategories();
+        //getCategories();
        
         //  applicant.name.value = generatetoken
          
@@ -672,6 +681,7 @@ console.log(JSON.stringify(options));
         date1,
          date,
          categoryoptions,
+        //  setDefaultItem,
          shuffle,
          getCategories,
          getaptitude,
