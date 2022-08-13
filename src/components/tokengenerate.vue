@@ -428,7 +428,7 @@ import router from '../router';
      let optionc = time * 0.9
      optionb = optionb.toFixed(2)
      optionc = optionc.toFixed(2)
-     //console.log(time)
+     console.log(time)
      let options = [time,optionb,optionc,"None of these"]
     //  question= JSON.stringify(question)
       options = shuffle(options)
@@ -437,7 +437,7 @@ import router from '../router';
       }); 
       //console.log(answer)
       options = JSON.stringify(options);
-       //console.log(options)
+       console.log(options)
       return {question,options,answer}
     }
     const questionSeven = () => {
@@ -466,7 +466,7 @@ import router from '../router';
       let a = getaptitude(1,10)
       let b = getaptitude(1,10)
       let c = getaptitude(1,10)
-      let newRatio = a * (1.50) * 10
+      let newRatio = a * (1.15) * 10
       //console.log('avalue',a,newRatio)
      let question = "The salaries A, B, C are in the ratio 2 : 3 : 5. If the increments of "+ a+"%, "+ b+"% and "+c +"% are allowed respectively in their salaries, then what will be A's Ratio of the new salary?"
      let optionb = newRatio + 2
