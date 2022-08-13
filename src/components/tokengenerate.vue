@@ -206,9 +206,9 @@ import router from '../router';
       $q.loading.hide()
       })
     }
-    onBeforeMount(async () => {
-    getCategories();
-})
+//     onBeforeMount(async () => {
+//     getCategories();
+// })
     onMounted(()=> {
           getCategories();
          
@@ -630,7 +630,8 @@ import router from '../router';
     return rand
      }
       const tokengen = () => {
-        if(category.value === '' || category.value === undefined || timelimit.value === '' || timelimit.value === undefined){
+
+        if(category.value === '' || category.value === undefined || timelimit.value === '' || timelimit.value === undefined || (category.value).length == 0 || (timelimit.value).length == 0){
           console.log(category.value)
           alert('category or timelimit is empty')
         } else {
@@ -646,7 +647,8 @@ import router from '../router';
       //var cde =  date.value
        //console.log('dddd',cde,date1.value)
       // return date
-      console.log(category)
+      //console.log((category.value).length)
+      //console.log(timelimit.value)
         api .post(`token/jwt`,{fromDate : abc,toDate : bcd,company_id :company_id.value,category_id:category.value,timelimit: timelimit.value, type : type.value },
         {
   headers: {
