@@ -52,21 +52,21 @@
         />
         <div class="q-pa-md q-gutter-md">
         <q-dialog v-model="show_dialog">
-        <q-card>
+        <q-card class="qcard row justify-center">
           <q-card-section style="width: 623px">
             <div class="text-h6">Edit question</div>
           </q-card-section>
 
           <q-card-section style="width: 621px">
-            <div class="row" style="width: 600px">
+            <div class="row justify-center" style="width: 600px">
               <q-input v-model="editedItem.question" autogrow label="Question" style="width: 400px"></q-input>
               </div>
-            <div class="row">
-            <q-input v-model="editedItem.options" autogrow label="options" style="width: 400px"></q-input> 
+            <div class="row justify-center">
+            <q-input v-for="(value,index) in editedItem.options" :key="index" :val="value" v-model="editedItem.options[index]" autogrow :label="'option ' + numberToChar(index)" style="width: 400px"></q-input> 
             </div>
            <!-- <div class="row"><q-input v-model="editedItem.answeralpha" label="answer"></q-input></div> -->
-           <div class="row"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div>
-           <div class="row"><q-select disable style="width: 400px" v-model="editedItem.category" :options="categoryoptions" label="category" emit-value map-options/></div>
+           <div class="row justify-center"  ><q-select style="width: 400px" v-model="editedItem.answeralpha" :options="answeroptions" label="Answer" emit-value map-options/></div>
+           <!-- <div class="row"><q-select disable style="width: 400px" v-model="editedItem.category" :options="categoryoptions" label="category" emit-value map-options/></div> -->
            <!-- <div class="row"><q-input v-model="editedItem.company_id" label="company"></q-input></div> -->
            <!-- <div class="row"><q-select style="width: 400px" v-model="editedItem.companynew" :options="companyoptions" label="Company" emit-value map-options/></div> -->
           </q-card-section>
@@ -144,8 +144,8 @@
               <q-input type="textarea" v-model="scope.value" dense autofocus  />
             </q-popup-edit> -->
           </q-td>
-          <q-td key="options" :props="props">
-            {{ props.row.options }}
+          <q-td key="modifyoptions" :props="props">
+            {{ props.row.modifyoptions }}
             <!-- <q-popup-edit v-model="props.row.options" title="Update Options" buttons v-slot="scope">
               <q-input v-model="scope.value" dense autofocus />
             </q-popup-edit> -->
@@ -349,7 +349,7 @@ export default {
 }
     var editedItem = ref([ {
         question: '',
-        options: '',
+        options: [],
         answer: '',
         answeralpha: '',
         company_id: '',
@@ -415,7 +415,7 @@ export default {
     }
     
     const getQuestion = () => {
-      console.log(visibleColumns.value)
+      //console.log(visibleColumns.value)
       api
           .get(`analytic/getallqstns`,
           {
@@ -426,9 +426,14 @@ export default {
           .then(async (res) => {
             //let catid = []
   let resdata = res.data.data
+  
   resdata.map(function(val) {
     val.answeralpha = numberToChar(val.answer)
+     //console.log(JSON.parse(val.options))
+     const options = JSON.parse(val.options) 
     
+     val.modifyoptions = options.toString();
+      //console.log(val.modifyoptions)
       //val.companynew = company.value.name
     // if(val.category_id) {
     //       let ab =  val.category_id
@@ -451,7 +456,7 @@ export default {
     
 //&& obj.category_id == undefined || obj.category_id === visibleColumns.value
     var result=resdata.filter(obj=> obj.company_id == admin.value.company_id);
- console.log(result);
+ //console.log(result);
  //console.log(company.value.name)
   //rows.value = resdata
   let array = []
@@ -464,9 +469,11 @@ export default {
        visibleColumns.value = array[0]
       }
       
-      console.log(visibleColumns.value)
+      //console.log(visibleColumns.value)
       var result100 = result.filter(obj => obj.category_id == visibleColumns.value)
   rows.value = result100
+  
+  getCategories();
   // const categories = {};
   
   //  result.map(x => {
@@ -523,7 +530,7 @@ export default {
         let responsedata = response.data.data
         //rows1.value = responsedata
           var result=responsedata.filter(obj=> obj.company_id == admin.value.company_id);
-// console.log(result);
+ //console.log(result);
  rows1.value  = result
  //let array = []
          categoryoptions.value = result.map((x) => { 
@@ -535,12 +542,13 @@ export default {
       })
       $q.loading.hide() 
        //visibleColumns.value = array[0]
-         //console.log(array)
+         //console.log(categoryoptions.value)
       })
     }
      onMounted(() => {
-      getCategories();
-      getQuestion();      
+      
+      getQuestion(); 
+      //getCategories();     
       //console.log(token)
   })
  
@@ -601,7 +609,9 @@ const addRow = () => {
       newanswer.value = editedItem.value.answeralpha
     }
     //category_id:editedItem.value.category
-      api.put(`analytic/editqstn/${editedItem.value.question_id }`, {question : editedItem.value.question,options: editedItem.value.options, answer: newanswer.value,company_id:admin.value.company_id},
+    //console.log(editedItem.value.options)
+    let editoptions = JSON.stringify(editedItem.value.options)
+      api.put(`analytic/editqstn/${editedItem.value.question_id }`, {question : editedItem.value.question,options: editoptions, answer: newanswer.value,company_id:admin.value.company_id},
       {
    headers: {
      Authorization: 'Bearer ' + token.value
@@ -618,7 +628,7 @@ const addRow = () => {
     else{
      let ab = finds.value.options
      let up =  ab.lastIndexOf("")
-     //console.log(ab.length)
+     console.log(ab)
       if( additem.value.question != '' && up == -1 && ab.length !== 0 && additem.value.answeralpha != '' && additem.value.answeralpha != undefined && additem.value.category !=''&& additem.value.category != undefined )
       {
    
@@ -689,7 +699,7 @@ const deletecheck = () => {
    }).then((res) => {
     console.log(res)
    const result = res.data.data
-   console.log(result)
+   //console.log(result)
          confirm("Are you sure you want to delete this question?") &&
        api.delete(`analytic/deleteqstn/${editedItem.value.question_id }`,
        {
@@ -712,6 +722,7 @@ const deleteItem = (item) => {
 
   promptdialog.value = true
    editedItem.value = Object.assign({}, item);
+   
 //  // const index = data.indexOf(item);
 //       confirm("Are you sure you want to delete this question?") &&
 //        api.delete(`analytic/deleteqstn/${editedItem.value.question_id }`,
@@ -736,7 +747,13 @@ const editItem = (item) => {
        editedItem.value = Object.assign({}, item);
        
       show_dialog.value = true
-      //console.log(editedItem )
+     // console.log(editedItem.value.options)
+      var role = editedItem.value.options
+      var res = JSON.parse(role)
+    // var aarray = res.split(",")
+     editedItem.value.options = res
+      //console.log(res[0])
+
 }
 const close = () => {
    //this.show_dialog = false
@@ -778,7 +795,7 @@ const columns = [
     // format: val => `${val}`,
     sortable: true
   },
-  { name: 'options', align: 'center', label: 'Options', field: 'options', sortable: true },
+  { name: 'modifyoptions', align: 'center', label: 'Options', field: 'modifyoptions', sortable: true },
   { name: 'answer', label: 'Answer', field: 'answeralpha',align:'center' },
   { name: 'category', label: 'category', field: 'category_id' },
    {

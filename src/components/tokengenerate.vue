@@ -706,7 +706,7 @@ import router from '../router';
          type,
          credit,
          typeoptions: [
-          {label : 'General', value : '1'},
+          {label : 'Default', value : '1'},
           {label : 'Custom' , value: '2'}
           ],
          timelimitoptions: [
