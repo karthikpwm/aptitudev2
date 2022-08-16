@@ -468,12 +468,14 @@ import router from '../router';
       let c = getaptitude(1,10)
       let newRatio = a * (1.15) * 10
       //console.log('avalue',a,newRatio)
+     // newRatio = (newRatio).toFixed(2)
      let question = "The salaries A, B, C are in the ratio 2 : 3 : 5. If the increments of "+ a+"%, "+ b+"% and "+c +"% are allowed respectively in their salaries, then what will be A's Ratio of the new salary?"
-     let optionb = newRatio + 2
-     let optionc = newRatio + 3
-     let optiond = newRatio + 4
+     let optionb = Math.round((newRatio + 2)* 1e12) / 1e12
+     let optionc = Math.round((newRatio + 3)* 1e12) / 1e12
+     let optiond = Math.round((newRatio + 4)* 1e12) / 1e12
      let options = [optionb,optionc,newRatio,optiond]
-     //console.log(newRatio)
+     
+     console.log(optionb,optionc,newRatio,optiond)
      //question= JSON.stringify(question)
      options = options.map(String)
       options = shuffle(options)
