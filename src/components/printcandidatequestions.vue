@@ -16,7 +16,29 @@
       @row-click="onRowClick" 
       
       v-model:selected="selected"
-      />
+      >
+      <template v-slot:body="props">
+      <q-tr :props="props">
+      <q-td key="name" :props="props">
+            {{ props.row.question }}
+            
+          </q-td>
+          <!-- <q-td key="correct" :props="props">
+            {{ props.row.correct }}
+           
+          </q-td>
+          <q-td key="icon" :props="props">
+            {{ props.row.icon }}
+           
+          </q-td> -->
+          <q-td key="actions" :props="props" style="width:131px">
+          <q-btn v-if="props.row.icon === 'true'" text-color="green" text="Print" icon="check"  flat round dense></q-btn>
+          <q-btn v-else text-color="red" icon="clear"  flat round dense></q-btn>
+              
+            </q-td>
+      </q-tr>
+      </template>
+    </q-table>
       
   </div>
 
@@ -41,6 +63,7 @@ export default {
     const router = useRouter()
     const rows = ref([])
     const candname = ref()
+    const displayicon = ref()
     onMounted(() => {
       let cid = getCurrentInstance().data.candidateId
       //console.log(cid)
@@ -54,9 +77,19 @@ resdata.forEach(val => {
      val.candname= ab
      //console.log(val.candname)
      candname.value = val.candname
+     console.log(val.correct)
+     if(val.correct == 1){
+      val.icon = 'true'
+      displayicon.value = val.icon
+      
+     } else {
+      
+      val.icon = 'false'
+      displayicon.value = val.icon
+     }
    });
     rows.value = resdata
-    
+    console.log(rows.value)
     //console.log(rows.value[0].candidatename)
    
    
@@ -103,8 +136,13 @@ resdata.forEach(val => {
     },
     // { name: 'options', align: 'left', label: 'options', field: 'options', sortable: true },
     // { name: 'answer', label: 'answer', field: 'answer',align: 'left', sortable: true },
-    { name: 'correct', label: 'Marks',align: 'left', field: 'correct', headerStyle:'width:100px' },
-    // { name: 'candidate answer', label: 'candidate answer',align: 'left', field: 'candidateanswer' },
+    // { name: 'correct', label: 'Marks',align: 'left', field: 'correct', headerStyle:'width:100px' },
+    // { name: 'icon', label: 'candidate answer',align: 'left', field: 'icon' },
+    {
+          name: "actions",
+          label: "Answer",
+          field: "actions", align: 'center',headerStyle:'width:100px'
+        }
     
   ]
   
@@ -113,7 +151,8 @@ resdata.forEach(val => {
       columns,
       rows,
       display,
-      candname
+      candname,
+      displayicon
      
       
     }
