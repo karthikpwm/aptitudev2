@@ -92,6 +92,7 @@
             <div class="row justify-center" v-for="(_,index) in finds.options" :key="index">
             <!-- {{finds[index]}} -->
             <q-input v-model="finds.options[index]" autogrow label="Options" style="width: 350px" > </q-input>
+            <q-btn class="gt-xs" size="12px" flat dense icon="clear" @click="deleteVisa(index)" />
             </div>
             <div class="row justify-center" style="padding-top:3px">
             <q-btn color="primary" @click="addnewitem()" >
@@ -372,7 +373,7 @@ export default {
       }]) 
       const defaultItem = ref({
         question: '',
-        options: [],
+        options: [''],
         answeralpha: '',
         companynew: null,
         
@@ -382,9 +383,14 @@ export default {
         category : ''
       })
       const addnewitem = () => {
-        //console.log("looooo")
+        if(finds.value.options.length < 4)
+        {
+          //console.log("looooo")
         //console.log(additem)
         finds.value.options.push('')
+        //console.log(finds.value.options.length)
+        }
+        
       }
      const setDefaultItem = () => {
       editedItem.value = ref(Object.assign({}, defaultItem)) 
@@ -402,18 +408,23 @@ export default {
        additem.value = Object.assign({}, defaultItem.value)
       //console.log('working', defaultItem.value)
       finds.value = Object.assign({}, defaultItem.value)
-      finds.value.options = finds.value.options.splice(0, finds.value.options.length)
+      //console.log(finds.value)
+      finds.value.options = ['']
+      //console.log(finds.value.options)
     }
     const clearinputvalue = () => {
        additem.value = Object.assign({}, defaultItem.value)
       //  finds.value.options.splice(0, options.length)
-      finds.value.options = finds.value.options.splice(0, finds.value.options.length)
+      //console.log(finds.value)
+      finds.value.options = ['']
       //console.log(finds.value.options)
     }
     const sample = () => {
 //console.log(visibleColumns.value)
     }
-    
+   function deleteVisa(index){
+      finds.value.options.splice(index,1);
+}
     const getQuestion = () => {
       //console.log(visibleColumns.value)
       api
@@ -628,7 +639,7 @@ const addRow = () => {
     else{
      let ab = finds.value.options
      let up =  ab.lastIndexOf("")
-     console.log(ab)
+     //console.log(ab)
       if( additem.value.question != '' && up == -1 && ab.length !== 0 && additem.value.answeralpha != '' && additem.value.answeralpha != undefined && additem.value.category !=''&& additem.value.category != undefined )
       {
    
@@ -854,6 +865,7 @@ return {
   getQuestion,
   setDefaultcat,
   deletecheck,
+  deleteVisa,
   rows1,
   visibleColumns,
   products,
